@@ -1,8 +1,10 @@
-# Facebook SDK for PHP (v5)
+# Facebook SDK for PHP (v6)
 
-[![Build Status](https://img.shields.io/travis/facebook/php-graph-sdk/5.x.svg)](https://travis-ci.org/facebook/php-graph-sdk)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/facebook/php-graph-sdk/badges/quality-score.png?b=5.x)](https://scrutinizer-ci.com/g/facebook/php-graph-sdk/?branch=5.x)
-[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-5.7.0-blue.svg)](https://packagist.org/packages/facebook/graph-sdk)
+[![Build Status](https://api.travis-ci.com/nickdnk/php-graph-sdk.svg)](https://travis-ci.com/github/nickdnk/php-graph-sdk)
+[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.0-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
+
+# WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
+## PHP 7.3 or 8.0 is required.
 
 This repository contains the open source PHP SDK that allows you to access the Facebook Platform from your PHP app.
 
@@ -11,7 +13,7 @@ This repository contains the open source PHP SDK that allows you to access the F
 The Facebook PHP SDK can be installed with [Composer](https://getcomposer.org/). Run this command:
 
 ```sh
-composer require facebook/graph-sdk
+composer require nickdnk/graph-sdk
 ```
 
 Please be aware, that there are issues when using the Facebook SDK together with [Guzzle](https://github.com/guzzle/guzzle) 6.x. php-graph-sdk v5.x only works with Guzzle 5.x out of the box. However, [there is a workaround to make it work with Guzzle 6.x](https://www.sammyk.me/how-to-inject-your-own-http-client-in-the-facebook-php-sdk-v5#writing-a-guzzle-6-http-client-implementation-from-scratch).
@@ -22,7 +24,7 @@ Upgrading from v4.x? Facebook PHP SDK v5.x introduced breaking changes. Please [
 
 ## Usage
 
-> **Note:** This version of the Facebook SDK for PHP requires PHP 5.4 or greater.
+> **Note:** This version of the Facebook SDK for PHP requires PHP 7.3 or greater.
 
 Simple GET example of a user's profile.
 
