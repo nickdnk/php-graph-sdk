@@ -29,5 +29,8 @@
         "psr-4": {
             "Facebook\\Tests\\": "tests/"
         }
+    },
+    "replace": {
+        "facebook/graph-sdk": ">=5.7.0"
     }
 }
