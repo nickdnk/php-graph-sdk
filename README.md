@@ -1,7 +1,7 @@
 # Facebook SDK for PHP (v6)
 
 [![Build Status](https://api.travis-ci.com/nickdnk/php-graph-sdk.svg)](https://travis-ci.com/github/nickdnk/php-graph-sdk)
-[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.0-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
+[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.1-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
 
 # WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
 ## PHP 7.3 or 8.0 is required.
