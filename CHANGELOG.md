@@ -2,6 +2,12 @@
 
 Starting with version 5, the Facebook PHP SDK follows [SemVer](http://semver.org/).
 
+## 6.x (UNOFFICIAL)
+ - 6.0.1
+   - Added `replace` property to `composer.json`
+ - 6.0.0
+   - Works with PHP 8.
+
 ## 5.x
 
 Version 5 of the Facebook PHP SDK is a complete refactor of version 4. It comes loaded with lots of new features and a friendlier API.
