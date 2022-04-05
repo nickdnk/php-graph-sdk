@@ -4,7 +4,7 @@
 [![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.2-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
 
 # WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
-## PHP 7.3 or 8.0 is required.
+## PHP 7.3 is required.
 
 This repository contains the open source PHP SDK that allows you to access the Facebook Platform from your PHP app.
 
