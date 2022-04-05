@@ -1,0 +1,20 @@
+name: Test
+on:
+  push:
+    branches:
+      - master
+jobs:
+  test:
+    runs-on: ubuntu-20.04
+    strategy:
+      matrix:
+        php: [ '7.3', '7.4', '8.0', '8.1' ]
+    steps:
+      - uses: actions/checkout@v2
+      - run: mkdir -p build/logs
+      - name: Test PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{matrix.php}}
+      - run: composer install
+      - run: php vendor/bin/phpunit --exclude-group integration

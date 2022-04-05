@@ -1,21 +1,18 @@
-<phpunit
-        colors="true"
-        stderr="true"
-        convertErrorsToExceptions="true"
-        convertNoticesToExceptions="true"
-        convertWarningsToExceptions="true"
-        stopOnFailure="false"
-        bootstrap="tests/bootstrap.php">
+<?xml version="1.0"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" colors="true" stderr="true"
+         convertErrorsToExceptions="true" convertNoticesToExceptions="true" convertWarningsToExceptions="true"
+         stopOnFailure="true" bootstrap="tests/bootstrap.php"
+         xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd">
+    <coverage>
+        <include>
+            <directory suffix=".php">./src/Facebook</directory>
+        </include>
+    </coverage>
     <testsuites>
         <testsuite name="Facebook PHP SDK Test Suite">
             <directory>./tests</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./src/Facebook</directory>
-        </whitelist>
-    </filter>
     <listeners>
         <listener class="\Mockery\Adapter\Phpunit\TestListener"/>
     </listeners>
