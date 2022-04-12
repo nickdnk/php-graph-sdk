@@ -96,7 +96,7 @@ class FacebookApp implements \Serializable
         return implode('|', [$this->id, $this->secret]);
     }
 
-    public function __serialize(): string
+    public function __serialize()
     {
         return $this->serialize();
     }
@@ -113,7 +113,7 @@ class FacebookApp implements \Serializable
         $this->__construct($id, $secret);
     }
 
-    public function __unserialize(string $data): void
+    public function __unserialize($data)
     {
         $this->unserialize($data);
     }
