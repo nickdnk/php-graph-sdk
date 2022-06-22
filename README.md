@@ -16,6 +16,11 @@ The Facebook PHP SDK can be installed with [Composer](https://getcomposer.org/).
 composer require nickdnk/graph-sdk
 ```
 
+By default the request will be done via a **Facebook\HttpClients\FacebookHttpClientInterface**. The default value depends on the availables PHP extension/packages. In order of priority:
+- ext-curl: Facebook\HttpClients\FacebookCurlHttpClient
+- package guzzlehttp/guzzle: Facebook\HttpClients\FacebookGuzzleHttpClient
+- fallback: Facebook\HttpClients\FacebookStreamHttpClient
+
 Please be aware, that there are issues when using the Facebook SDK together with [Guzzle](https://github.com/guzzle/guzzle) 6.x. php-graph-sdk v5.x only works with Guzzle 5.x out of the box. However, [there is a workaround to make it work with Guzzle 6.x](https://www.sammyk.me/how-to-inject-your-own-http-client-in-the-facebook-php-sdk-v5#writing-a-guzzle-6-http-client-implementation-from-scratch).
 
 ## Usage
