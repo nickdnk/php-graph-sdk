@@ -1,7 +1,7 @@
 # Facebook SDK for PHP (v6)
 
 [![Build Status](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml)
-[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.2-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
+[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.3-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
 
 # WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
 ## PHP 7.3 is required.
@@ -75,7 +75,7 @@ Complete documentation, installation instructions, and examples are available [h
 $ ./vendor/bin/phpunit
 ```
 
-By default the tests will send live HTTP requests to the Graph API. If you are without an internet connection you can skip these tests by excluding the `integration` group.
+By default, the tests will send live HTTP requests to the Graph API. If you are without an internet connection you can skip these tests by excluding the `integration` group.
 
 ```bash
 $ ./vendor/bin/phpunit --exclude-group integration

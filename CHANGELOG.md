@@ -3,6 +3,8 @@
 Starting with version 5, the Facebook PHP SDK follows [SemVer](http://semver.org/).
 
 ## 6.x (UNOFFICIAL)
+ - 6.0.3
+   - Fixed deprecation warnings for PHP 8.1
  - 6.0.2
    - Removed PHP 5 polyfills
    - Updated `phpunit.xml`
