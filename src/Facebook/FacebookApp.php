@@ -98,7 +98,7 @@ class FacebookApp implements \Serializable
 
     public function __serialize()
     {
-        return $this->serialize();
+        return ['id' => $this->id, 'secret' => $this->secret];
     }
 
     /**
@@ -115,6 +115,6 @@ class FacebookApp implements \Serializable
 
     public function __unserialize($data)
     {
-        $this->unserialize($data);
+        $this->__construct($data['id'], $data['secret']);
     }
 }
