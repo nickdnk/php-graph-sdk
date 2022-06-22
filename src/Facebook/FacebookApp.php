@@ -96,6 +96,11 @@ class FacebookApp implements \Serializable
         return implode('|', [$this->id, $this->secret]);
     }
 
+    public function __serialize()
+    {
+        return $this->serialize();
+    }
+
     /**
      * Unserializes a string as a FacebookApp entity.
      *
@@ -106,5 +111,10 @@ class FacebookApp implements \Serializable
         list($id, $secret) = explode('|', $serialized);
 
         $this->__construct($id, $secret);
+    }
+
+    public function __unserialize($data)
+    {
+        $this->unserialize($data);
     }
 }
