@@ -19,6 +19,9 @@
         "mockery/mockery": "~1.5.1",
         "guzzlehttp/guzzle": "^6.5.0 | ^7.5.0"
     },
+    "conflict": {
+        "guzzlehttp/guzzle": "<6.0"
+    },
     "autoload": {
         "psr-4": {
             "Facebook\\": "src/Facebook/"
