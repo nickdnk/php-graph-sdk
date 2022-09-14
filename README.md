@@ -1,7 +1,7 @@
 # Facebook SDK for PHP
 
 [![Build Status](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml)
-[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-7.0.0-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
+[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-7.0.1-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
 
 # WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
 

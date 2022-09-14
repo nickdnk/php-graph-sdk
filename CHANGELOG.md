@@ -1,7 +1,9 @@
 # CHANGELOG
 
 ## 7.x (UNOFFICIAL)
- - 7.0.0
+ - 7.0.1
+   - Add `conflict` section to `composer.json` to prevent incompatible versions of Guzzle.
+ - 7.0.0 (:warning: Removed from packagist because it was missing the conflict change from 7.0.1)
    - Guzzle now takes priority over cURL as the HTTP client, if available.
    - Removed support for Guzzle 5. Guzzle 6 or 7 is now required if using Guzzle.
    - Fixed additional deprecation warnings on PHP 8.1.
