@@ -1,9 +1,10 @@
-# Facebook SDK for PHP (v6)
+# Facebook SDK for PHP
 
 [![Build Status](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml)
-[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-6.0.3-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
+[![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-7.0.0-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
 
 # WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
+
 ## PHP 7.3 is required.
 
 This repository contains the open source PHP SDK that allows you to access the Facebook Platform from your PHP app.
@@ -16,16 +17,14 @@ The Facebook PHP SDK can be installed with [Composer](https://getcomposer.org/).
 composer require nickdnk/graph-sdk
 ```
 
-By default the request will be done via a **Facebook\HttpClients\FacebookHttpClientInterface**. The default value depends on the availables PHP extension/packages. In order of priority:
-- ext-curl: Facebook\HttpClients\FacebookCurlHttpClient
-- package guzzlehttp/guzzle: Facebook\HttpClients\FacebookGuzzleHttpClient
-- fallback: Facebook\HttpClients\FacebookStreamHttpClient
+By default, the request will be made via a `Facebook\HttpClients\FacebookHttpClientInterface`. The default
+implementation depends on the available PHP extension/packages. In order of priority:
 
-Please be aware, that there are issues when using the Facebook SDK together with [Guzzle](https://github.com/guzzle/guzzle) 6.x. php-graph-sdk v5.x only works with Guzzle 5.x out of the box. However, [there is a workaround to make it work with Guzzle 6.x](https://www.sammyk.me/how-to-inject-your-own-http-client-in-the-facebook-php-sdk-v5#writing-a-guzzle-6-http-client-implementation-from-scratch).
+1. Package `guzzlehttp/guzzle` (version 6 or 7): `Facebook\HttpClients\FacebookGuzzleHttpClient`
+2. ext-curl: `Facebook\HttpClients\FacebookCurlHttpClient`
+3. Fallback: `Facebook\HttpClients\FacebookStreamHttpClient`
 
 ## Usage
-
-> **Note:** This version of the Facebook SDK for PHP requires PHP 7.3 or greater.
 
 Simple GET example of a user's profile.
 
@@ -67,15 +66,19 @@ Complete documentation, installation instructions, and examples are available [h
 
 ## Tests
 
-1. [Composer](https://getcomposer.org/) is a prerequisite for running the tests. Install composer globally, then run `composer install` to install required files.
-2. Create a test app on [Facebook Developers](https://developers.facebook.com), then create `tests/FacebookTestCredentials.php` from `tests/FacebookTestCredentials.php.dist` and edit it to add your credentials.
+1. [Composer](https://getcomposer.org/) is a prerequisite for running the tests. Install composer globally, then
+   run `composer install` to install required files.
+2. Create a test app on [Facebook Developers](https://developers.facebook.com), then
+   create `tests/FacebookTestCredentials.php` from `tests/FacebookTestCredentials.php.dist` and edit it to add your
+   credentials.
 3. The tests can be executed by running this command from the root directory:
 
 ```bash
 $ ./vendor/bin/phpunit
 ```
 
-By default, the tests will send live HTTP requests to the Graph API. If you are without an internet connection you can skip these tests by excluding the `integration` group.
+By default, the tests will send live HTTP requests to the Graph API. If you are without an internet connection you can
+skip these tests by excluding the `integration` group.
 
 ```bash
 $ ./vendor/bin/phpunit --exclude-group integration

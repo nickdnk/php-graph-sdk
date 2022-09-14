@@ -283,6 +283,7 @@ class FacebookBatchRequest extends FacebookRequest implements IteratorAggregate,
      *
      * @return ArrayIterator
      */
+    #[\ReturnTypeWillChange]
     public function getIterator()
     {
         return new ArrayIterator($this->requests);
@@ -291,6 +292,7 @@ class FacebookBatchRequest extends FacebookRequest implements IteratorAggregate,
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function offsetSet($offset, $value)
     {
         $this->add($value, $offset);
@@ -299,6 +301,7 @@ class FacebookBatchRequest extends FacebookRequest implements IteratorAggregate,
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function offsetExists($offset)
     {
         return isset($this->requests[$offset]);
@@ -307,6 +310,7 @@ class FacebookBatchRequest extends FacebookRequest implements IteratorAggregate,
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function offsetUnset($offset)
     {
         unset($this->requests[$offset]);
@@ -315,6 +319,7 @@ class FacebookBatchRequest extends FacebookRequest implements IteratorAggregate,
     /**
      * @inheritdoc
      */
+    #[\ReturnTypeWillChange]
     public function offsetGet($offset)
     {
         return isset($this->requests[$offset]) ? $this->requests[$offset] : null;

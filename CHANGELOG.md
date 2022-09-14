@@ -1,14 +1,18 @@
 # CHANGELOG
 
-Starting with version 5, the Facebook PHP SDK follows [SemVer](http://semver.org/).
-
+## 7.x (UNOFFICIAL)
+ - 7.0.0
+   - Guzzle now takes priority over cURL as the HTTP client, if available.
+   - Removed support for Guzzle 5. Guzzle 6 or 7 is now required if using Guzzle.
+   - Fixed additional deprecation warnings on PHP 8.1.
+   - Removed deprecated or skipped tests for PHP < 7.3.
 ## 6.x (UNOFFICIAL)
  - 6.0.3
    - Fixed deprecation warnings for PHP 8.1
  - 6.0.2
    - Removed PHP 5 polyfills
    - Updated `phpunit.xml`
-   - Added Github Actions
+   - Added GitHub Actions
    - Test against PHP 8.1
  - 6.0.1
    - Added `replace` property to `composer.json`

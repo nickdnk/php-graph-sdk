@@ -31,7 +31,7 @@ use Facebook\FacebookBatchRequest;
 use Facebook\FacebookClient;
 use Facebook\FileUpload\FacebookFile;
 use Facebook\FileUpload\FacebookVideo;
-// These are needed when you uncomment the HTTP clients below.
+use Facebook\HttpClients\FacebookGuzzleHttpClient;
 use Facebook\Tests\Fixtures\MyFooBatchClientHandler;
 use Facebook\Tests\Fixtures\MyFooClientHandler;
 use Facebook\GraphNodes\GraphNode;
@@ -82,7 +82,9 @@ class FacebookClientTest extends BaseTestCase
         $client = new FacebookClient();
         $httpHandler = $client->getHttpClientHandler();
 
-        if (function_exists('curl_init')) {
+        if (class_exists('GuzzleHttp\Client')) {
+            $this->assertInstanceOf(FacebookGuzzleHttpClient::class, $httpHandler);
+        } else if (function_exists('curl_init')) {
             $this->assertInstanceOf(FacebookCurlHttpClient::class, $httpHandler);
         } else {
             $this->assertInstanceOf(FacebookStreamHttpClient::class, $httpHandler);

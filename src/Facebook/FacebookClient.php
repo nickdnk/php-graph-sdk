@@ -23,6 +23,7 @@
  */
 namespace Facebook;
 
+use Facebook\HttpClients\FacebookGuzzleHttpClient;
 use Facebook\HttpClients\FacebookHttpClientInterface;
 use Facebook\HttpClients\FacebookCurlHttpClient;
 use Facebook\HttpClients\FacebookStreamHttpClient;
@@ -124,6 +125,9 @@ class FacebookClient
      */
     public function detectHttpClientHandler()
     {
+        if (class_exists('GuzzleHttp\Client')) {
+            return new FacebookGuzzleHttpClient();
+        }
         return extension_loaded('curl') ? new FacebookCurlHttpClient() : new FacebookStreamHttpClient();
     }
 

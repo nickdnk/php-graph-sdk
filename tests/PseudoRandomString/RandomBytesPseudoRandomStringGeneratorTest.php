@@ -30,11 +30,6 @@ class RandomBytesPseudoRandomStringGeneratorTest extends BaseTestCase
 {
     public function testCanGenerateRandomStringOfArbitraryLength()
     {
-        if (!function_exists('random_bytes')) {
-            $this->markTestSkipped(
-                'Must have PHP 7 or paragonie/random_compat installed to test random_bytes().'
-            );
-        }
 
         $csprng = new RandomBytesPseudoRandomStringGenerator;
         $randomString = $csprng->getPseudoRandomString(10);

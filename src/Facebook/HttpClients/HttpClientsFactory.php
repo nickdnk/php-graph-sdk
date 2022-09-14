@@ -86,12 +86,13 @@ class HttpClientsFactory
      */
     private static function detectDefaultClient()
     {
-        if (extension_loaded('curl')) {
-            return new FacebookCurlHttpClient();
-        }
 
         if (class_exists('GuzzleHttp\Client')) {
             return new FacebookGuzzleHttpClient();
+        }
+
+        if (extension_loaded('curl')) {
+            return new FacebookCurlHttpClient();
         }
 
         return new FacebookStreamHttpClient();

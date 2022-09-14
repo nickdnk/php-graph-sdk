@@ -189,11 +189,6 @@ class FacebookTest extends BaseTestCase
 
     public function testRandomBytesCsprgCanBeForced()
     {
-        if (!function_exists('random_bytes')) {
-            $this->markTestSkipped(
-                'Must have PHP 7 or paragonie/random_compat installed to test random_bytes().'
-            );
-        }
 
         $config = array_merge($this->config, [
             'persistent_data_handler' => 'memory', // To keep session errors from happening
@@ -202,25 +197,6 @@ class FacebookTest extends BaseTestCase
         $fb = new Facebook($config);
         $this->assertInstanceOf(
             'Facebook\PseudoRandomString\RandomBytesPseudoRandomStringGenerator',
-            $fb->getRedirectLoginHelper()->getPseudoRandomStringGenerator()
-        );
-    }
-
-    public function testMcryptCsprgCanBeForced()
-    {
-        if (!function_exists('mcrypt_create_iv')) {
-            $this->markTestSkipped(
-                'Mcrypt must be installed to test mcrypt_create_iv().'
-            );
-        }
-
-        $config = array_merge($this->config, [
-            'persistent_data_handler' => 'memory', // To keep session errors from happening
-            'pseudo_random_string_generator' => 'mcrypt'
-        ]);
-        $fb = new Facebook($config);
-        $this->assertInstanceOf(
-            'Facebook\PseudoRandomString\McryptPseudoRandomStringGenerator',
             $fb->getRedirectLoginHelper()->getPseudoRandomStringGenerator()
         );
     }

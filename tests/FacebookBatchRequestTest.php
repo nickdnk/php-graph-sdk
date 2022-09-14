@@ -23,6 +23,7 @@
  */
 namespace Facebook\Tests;
 
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
 use Facebook\FacebookApp;
 use Facebook\FacebookRequest;
@@ -82,7 +83,7 @@ class FacebookBatchRequestTest extends BaseTestCase
 
     public function testWillThrowWhenNoThereIsNoAppFallback()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $batchRequest = new FacebookBatchRequest();
 
         $batchRequest->addFallbackDefaults(new FacebookRequest(null, 'foo_token'));
@@ -90,7 +91,7 @@ class FacebookBatchRequestTest extends BaseTestCase
 
     public function testWillThrowWhenNoThereIsNoAccessTokenFallback()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $request = new FacebookBatchRequest();
 
         $request->addFallbackDefaults(new FacebookRequest($this->app));
@@ -164,7 +165,7 @@ class FacebookBatchRequestTest extends BaseTestCase
 
     public function testAZeroRequestCountWithThrow()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $batchRequest = new FacebookBatchRequest($this->app, [], 'foo_token');
 
         $batchRequest->validateBatchRequestCount();
@@ -172,7 +173,7 @@ class FacebookBatchRequestTest extends BaseTestCase
 
     public function testMoreThanFiftyRequestsWillThrow()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $batchRequest = $this->createBatchRequest();
 
         $this->createAndAppendRequestsTo($batchRequest, 51);
@@ -187,6 +188,7 @@ class FacebookBatchRequestTest extends BaseTestCase
         $this->createAndAppendRequestsTo($batchRequest, 50);
 
         $batchRequest->validateBatchRequestCount();
+        $this->assertEquals(1, 1);
     }
 
     /**

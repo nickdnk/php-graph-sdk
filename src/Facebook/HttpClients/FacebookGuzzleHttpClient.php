@@ -21,25 +21,25 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\HttpClients;
 
 use Facebook\Http\GraphRawResponse;
 use Facebook\Exceptions\FacebookSDKException;
 
 use GuzzleHttp\Client;
-use GuzzleHttp\Message\ResponseInterface;
-use GuzzleHttp\Ring\Exception\RingException;
-use GuzzleHttp\Exception\RequestException;
+use GuzzleHttp\Exception\GuzzleException;
+use Psr\Http\Message\ResponseInterface;
 
 class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
 {
     /**
-     * @var \GuzzleHttp\Client The Guzzle client.
+     * @var Client The Guzzle client.
      */
     protected $guzzleClient;
 
     /**
-     * @param \GuzzleHttp\Client|null The Guzzle client.
+     * @param Client|null $guzzleClient The Guzzle client.
      */
     public function __construct(Client $guzzleClient = null)
     {
@@ -52,29 +52,28 @@ class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
     public function send($url, $method, $body, array $headers, $timeOut)
     {
         $options = [
-            'headers' => $headers,
-            'body' => $body,
-            'timeout' => $timeOut,
+            'headers'         => $headers,
+            'body'            => $body,
+            'timeout'         => $timeOut,
+            'http_errors'     => false,
             'connect_timeout' => 10,
-            'verify' => __DIR__ . '/certs/DigiCertHighAssuranceEVRootCA.pem',
+            'verify'          => __DIR__ . '/certs/DigiCertHighAssuranceEVRootCA.pem',
         ];
-        $request = $this->guzzleClient->createRequest($method, $url, $options);
 
         try {
-            $rawResponse = $this->guzzleClient->send($request);
-        } catch (RequestException $e) {
-            $rawResponse = $e->getResponse();
 
-            if ($e->getPrevious() instanceof RingException || !$rawResponse instanceof ResponseInterface) {
-                throw new FacebookSDKException($e->getMessage(), $e->getCode());
-            }
+            $rawResponse = $this->guzzleClient->request($method, $url, $options);
+
+            return new GraphRawResponse(
+                $this->getHeadersAsString($rawResponse),
+                $rawResponse->getBody(),
+                $rawResponse->getStatusCode()
+            );
+
+        } catch (GuzzleException $e) {
+            throw new FacebookSDKException($e->getMessage(), $e->getCode());
         }
 
-        $rawHeaders = $this->getHeadersAsString($rawResponse);
-        $rawBody = $rawResponse->getBody();
-        $httpStatusCode = $rawResponse->getStatusCode();
-
-        return new GraphRawResponse($rawHeaders, $rawBody, $httpStatusCode);
     }
 
     /**

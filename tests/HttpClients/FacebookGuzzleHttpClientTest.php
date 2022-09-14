@@ -21,13 +21,16 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\Tests\HttpClients;
 
+
+use Facebook\Exceptions\FacebookSDKException;
+use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Psr7\Response;
+use GuzzleHttp\Psr7\Utils;
 use Mockery as m;
 use Facebook\HttpClients\FacebookGuzzleHttpClient;
-use GuzzleHttp\Message\Request;
-use GuzzleHttp\Message\Response;
-use GuzzleHttp\Stream\Stream;
 use GuzzleHttp\Exception\RequestException;
 
 class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
@@ -50,13 +53,12 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
 
     public function testCanSendNormalRequest()
     {
-        $request = new Request('GET', 'http://foo.com');
 
-        $body = Stream::factory($this->fakeRawBody);
+        $body = Utils::streamFor($this->fakeRawBody);
         $response = new Response(200, $this->fakeHeadersAsArray, $body);
 
         $this->guzzleMock
-            ->shouldReceive('createRequest')
+            ->shouldReceive('request')
             ->once()
             ->with('GET', 'http://foo.com/', m::on(function ($arg) {
 
@@ -67,8 +69,9 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
                 unset($arg['headers']);
 
                 $caInfo = array_diff_assoc($arg, [
-                    'body' => 'foo_body',
-                    'timeout' => 123,
+                    'body'            => 'foo_body',
+                    'timeout'         => 123,
+                    'http_errors'     => false,
                     'connect_timeout' => 10,
                 ]);
 
@@ -82,11 +85,6 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
 
                 return true;
             }))
-            ->andReturn($request);
-        $this->guzzleMock
-            ->shouldReceive('send')
-            ->once()
-            ->with($request)
             ->andReturn($response);
 
         $response = $this->guzzleClient->send('http://foo.com/', 'GET', 'foo_body', ['X-foo' => 'bar'], 123);
@@ -99,11 +97,11 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
 
     public function testThrowsExceptionOnClientError()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $request = new Request('GET', 'http://foo.com');
 
         $this->guzzleMock
-            ->shouldReceive('createRequest')
+            ->shouldReceive('request')
             ->once()
             ->with('GET', 'http://foo.com/', m::on(function ($arg) {
 
@@ -114,8 +112,9 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
                 unset($arg['headers']);
 
                 $caInfo = array_diff_assoc($arg, [
-                    'body' => 'foo_body',
-                    'timeout' => 60,
+                    'body'            => 'foo_body',
+                    'timeout'         => 60,
+                    'http_errors'     => false,
                     'connect_timeout' => 10,
                 ]);
 
@@ -129,11 +128,6 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
 
                 return true;
             }))
-            ->andReturn($request);
-        $this->guzzleMock
-            ->shouldReceive('send')
-            ->once()
-            ->with($request)
             ->andThrow(new RequestException('Foo', $request));
 
         $this->guzzleClient->send('http://foo.com/', 'GET', 'foo_body', [], 60);
