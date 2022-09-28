@@ -2,7 +2,7 @@
 
 [![Build Status](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml)
 [![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-7.0.1-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
-
+[![Downloads](https://img.shields.io/packagist/dt/nickdnk/graph-sdk?label=Downloads)](https://packagist.org/packages/nickdnk/graph-sdk)
 # WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
 
 ## PHP 7.3 is required.
