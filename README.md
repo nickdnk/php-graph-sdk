@@ -3,7 +3,7 @@
 [![Build Status](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml/badge.svg?branch=master)](https://github.com/nickdnk/php-graph-sdk/actions/workflows/test.yml)
 [![Latest Stable Version](http://img.shields.io/badge/Latest%20Stable-7.0.1-blue.svg)](https://packagist.org/packages/nickdnk/graph-sdk)
 [![Downloads](https://img.shields.io/packagist/dt/nickdnk/graph-sdk?label=Downloads)](https://packagist.org/packages/nickdnk/graph-sdk)
-# WARNING: THIS IS A CUSTOM RELEASE COMPATIBLE WITH PHP 8.
+### This is an unofficial version of Facebook's PHP SDK designed for PHP 7/8+. It is being maintained and tested against the newest PHP versions. You can use this in place of version `5.x` of Facebook's deprecated `facebook/graph-sdk` package.
 
 ## PHP 7.3 is required.
 
