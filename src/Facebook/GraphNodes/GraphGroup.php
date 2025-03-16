@@ -21,150 +21,92 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\GraphNodes;
+
+use DateTime;
 
 /**
  * Class GraphGroup
  *
  * @package Facebook
+ * @link https://developers.facebook.com/docs/graph-api/reference/group
  */
 class GraphGroup extends GraphNode
 {
     /**
      * @var array Maps object key names to GraphNode types.
      */
-    protected static $graphObjectMap = [
-        'cover' => '\Facebook\GraphNodes\GraphCoverPhoto',
-        'venue' => '\Facebook\GraphNodes\GraphLocation',
+    protected static array $graphObjectMap = [
+        'cover' => GraphCoverPhoto::class
     ];
 
-    /**
-     * Returns the `id` (The Group ID) as string if present.
-     *
-     * @return string|null
-     */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->getField('id');
     }
 
-    /**
-     * Returns the `cover` (The cover photo of the Group) as GraphCoverPhoto if present.
-     *
-     * @return GraphCoverPhoto|null
-     */
-    public function getCover()
+    public function getCover(): ?GraphCoverPhoto
     {
         return $this->getField('cover');
     }
 
-    /**
-     * Returns the `description` (A brief description of the Group) as string if present.
-     *
-     * @return string|null
-     */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->getField('description');
     }
 
-    /**
-     * Returns the `email` (The email address to upload content to the Group. Only current members of the Group can use this) as string if present.
-     *
-     * @return string|null
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->getField('email');
     }
 
-    /**
-     * Returns the `icon` (The URL for the Group's icon) as string if present.
-     *
-     * @return string|null
-     */
-    public function getIcon()
+    public function getIcon(): ?string
     {
         return $this->getField('icon');
     }
 
-    /**
-     * Returns the `link` (The Group's website) as string if present.
-     *
-     * @return string|null
-     */
-    public function getLink()
+    public function getMemberCount(): ?int
     {
-        return $this->getField('link');
+        return $this->getField('member_count');
     }
 
-    /**
-     * Returns the `name` (The name of the Group) as string if present.
-     *
-     * @return string|null
-     */
-    public function getName()
+    public function getMemberRequestCount(): ?int
+    {
+        return $this->getField('member_request_count');
+    }
+
+    public function getName(): ?string
     {
         return $this->getField('name');
     }
 
     /**
-     * Returns the `member_request_count` (Number of people asking to join the group.) as int if present.
-     *
-     * @return int|null
+     * @deprecated Deprecated in v9.0. Probably does not work anymore.
      */
-    public function getMemberRequestCount()
-    {
-        return $this->getField('member_request_count');
-    }
-
-    /**
-     * Returns the `owner` (The profile that created this Group) as GraphNode if present.
-     *
-     * @return GraphNode|null
-     */
-    public function getOwner()
+    public function getOwner(): ?GraphNode
     {
         return $this->getField('owner');
     }
 
-    /**
-     * Returns the `parent` (The parent Group of this Group, if it exists) as GraphNode if present.
-     *
-     * @return GraphNode|null
-     */
-    public function getParent()
+    public function getParent(): ?GraphNode
     {
         return $this->getField('parent');
     }
 
-    /**
-     * Returns the `privacy` (The privacy setting of the Group) as string if present.
-     *
-     * @return string|null
-     */
-    public function getPrivacy()
+    public function getPermissions(): ?string
+    {
+        return $this->getField('permissions');
+    }
+
+    public function getPrivacy(): ?string
     {
         return $this->getField('privacy');
     }
 
-    /**
-     * Returns the `updated_time` (The last time the Group was updated (this includes changes in the Group's properties and changes in posts and comments if user can see them)) as \DateTime if present.
-     *
-     * @return \DateTime|null
-     */
-    public function getUpdatedTime()
+    public function getUpdatedTime(): ?DateTime
     {
         return $this->getField('updated_time');
     }
 
-    /**
-     * Returns the `venue` (The location for the Group) as GraphLocation if present.
-     *
-     * @return GraphLocation|null
-     */
-    public function getVenue()
-    {
-        return $this->getField('venue');
-    }
 }

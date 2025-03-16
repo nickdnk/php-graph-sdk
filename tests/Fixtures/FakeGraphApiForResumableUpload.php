@@ -29,37 +29,37 @@ use Facebook\HttpClients\FacebookHttpClientInterface;
 
 class FakeGraphApiForResumableUpload implements FacebookHttpClientInterface
 {
-    public $transferCount = 0;
-    private $respondWith = 'SUCCESS';
+    public int $transferCount = 0;
+    private string $respondWith = 'SUCCESS';
 
-    public function failOnStart()
+    public function failOnStart(): void
     {
         $this->respondWith = 'FAIL_ON_START';
     }
 
-    public function failOnTransfer()
+    public function failOnTransfer(): void
     {
         $this->respondWith = 'FAIL_ON_TRANSFER';
     }
 
-    public function failOnTransferAndUploadNewChunk()
+    public function failOnTransferAndUploadNewChunk(): void
     {
         $this->respondWith = 'FAIL_ON_TRANSFER_AND_UPLOAD_NEW_CHUNK';
     }
 
-    public function send($url, $method, $body, array $headers, $timeOut)
+    public function send(string $url, string $method, ?string $body, array $headers, int $timeOut): GraphRawResponse
     {
         // Could be start, transfer or finish
-        if (strpos($body, 'transfer') !== false) {
+        if (str_contains($body, 'transfer')) {
             return $this->respondTransfer();
-        } elseif (strpos($body, 'finish') !== false) {
+        } elseif (str_contains($body, 'finish')) {
             return $this->respondFinish();
         }
 
         return $this->respondStart();
     }
 
-    private function respondStart()
+    private function respondStart(): GraphRawResponse
     {
         if ($this->respondWith == 'FAIL_ON_START') {
             return new GraphRawResponse(
@@ -76,7 +76,7 @@ class FakeGraphApiForResumableUpload implements FacebookHttpClientInterface
         );
     }
 
-    private function respondTransfer()
+    private function respondTransfer(): GraphRawResponse
     {
         if ($this->respondWith == 'FAIL_ON_TRANSFER') {
             return new GraphRawResponse(
@@ -115,7 +115,7 @@ class FakeGraphApiForResumableUpload implements FacebookHttpClientInterface
         );
     }
 
-    private function respondFinish()
+    private function respondFinish(): GraphRawResponse
     {
         return new GraphRawResponse(
             "HTTP/1.1 200 OK\r\nFoo: Bar",

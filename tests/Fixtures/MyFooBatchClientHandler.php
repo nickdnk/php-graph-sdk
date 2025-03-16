@@ -28,7 +28,7 @@ use Facebook\HttpClients\FacebookHttpClientInterface;
 
 class MyFooBatchClientHandler implements FacebookHttpClientInterface
 {
-    public function send($url, $method, $body, array $headers, $timeOut)
+    public function send(string $url, string $method, ?string $body, array $headers, int $timeOut): GraphRawResponse
     {
         return new GraphRawResponse(
             "HTTP/1.1 200 OK\r\nDate: Mon, 19 May 2014 18:37:17 GMT",

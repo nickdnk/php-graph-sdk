@@ -21,51 +21,34 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\GraphNodes;
 
 /**
  * Class GraphCoverPhoto
  *
  * @package Facebook
+ * @link https://developers.facebook.com/docs/graph-api/reference/cover-photo/
  */
 class GraphCoverPhoto extends GraphNode
 {
-    /**
-     * Returns the id of cover if it exists
-     *
-     * @return int|null
-     */
-    public function getId()
+
+    public function getId(): ?string
     {
         return $this->getField('id');
     }
-    
-    /**
-     * Returns the source of cover if it exists
-     *
-     * @return string|null
-     */
-    public function getSource()
+
+    public function getSource(): ?string
     {
         return $this->getField('source');
     }
 
-    /**
-     * Returns the offset_x of cover if it exists
-     *
-     * @return int|null
-     */
-    public function getOffsetX()
+    public function getOffsetX(): ?float
     {
         return $this->getField('offset_x');
     }
 
-    /**
-     * Returns the offset_y of cover if it exists
-     *
-     * @return int|null
-     */
-    public function getOffsetY()
+    public function getOffsetY(): ?float
     {
         return $this->getField('offset_y');
     }

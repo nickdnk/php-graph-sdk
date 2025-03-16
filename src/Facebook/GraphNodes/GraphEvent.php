@@ -21,211 +21,168 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\GraphNodes;
+
+use DateTime;
 
 /**
  * Class GraphEvent
  *
  * @package Facebook
+ * @link https://developers.facebook.com/docs/graph-api/reference/event
  */
 class GraphEvent extends GraphNode
 {
     /**
      * @var array Maps object key names to GraphNode types.
      */
-    protected static $graphObjectMap = [
-        'cover' => '\Facebook\GraphNodes\GraphCoverPhoto',
-        'place' => '\Facebook\GraphNodes\GraphPage',
-        'picture' => '\Facebook\GraphNodes\GraphPicture',
-        'parent_group' => '\Facebook\GraphNodes\GraphGroup',
+    protected static array $graphObjectMap = [
+        'cover'        => GraphCoverPhoto::class,
+        'place'        => GraphPage::class,
+        'parent_group' => GraphGroup::class,
     ];
 
     /**
      * Returns the `id` (The event ID) as string if present.
-     *
-     * @return string|null
      */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->getField('id');
     }
 
     /**
      * Returns the `cover` (Cover picture) as GraphCoverPhoto if present.
-     *
-     * @return GraphCoverPhoto|null
      */
-    public function getCover()
+    public function getCover(): ?GraphCoverPhoto
     {
         return $this->getField('cover');
     }
 
     /**
      * Returns the `description` (Long-form description) as string if present.
-     *
-     * @return string|null
      */
-    public function getDescription()
+    public function getDescription(): ?string
     {
         return $this->getField('description');
     }
 
     /**
      * Returns the `end_time` (End time, if one has been set) as DateTime if present.
-     *
-     * @return \DateTime|null
      */
-    public function getEndTime()
+    public function getEndTime(): ?DateTime
     {
         return $this->getField('end_time');
     }
 
     /**
      * Returns the `is_date_only` (Whether the event only has a date specified, but no time) as bool if present.
-     *
-     * @return bool|null
      */
-    public function getIsDateOnly()
+    public function getIsDateOnly(): bool
     {
-        return $this->getField('is_date_only');
+        return $this->getField('is_date_only') ?? false;
     }
 
     /**
      * Returns the `name` (Event name) as string if present.
-     *
-     * @return string|null
      */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getField('name');
     }
 
     /**
      * Returns the `owner` (The profile that created the event) as GraphNode if present.
-     *
-     * @return GraphNode|null
      */
-    public function getOwner()
+    public function getOwner(): ?GraphNode
     {
         return $this->getField('owner');
     }
 
     /**
      * Returns the `parent_group` (The group the event belongs to) as GraphGroup if present.
-     *
-     * @return GraphGroup|null
      */
-    public function getParentGroup()
+    public function getParentGroup(): ?GraphGroup
     {
         return $this->getField('parent_group');
     }
 
     /**
      * Returns the `place` (Event Place information) as GraphPage if present.
-     *
-     * @return GraphPage|null
      */
-    public function getPlace()
+    public function getPlace(): ?GraphPage
     {
         return $this->getField('place');
     }
 
     /**
      * Returns the `privacy` (Who can see the event) as string if present.
-     *
-     * @return string|null
      */
-    public function getPrivacy()
+    public function getPrivacy(): ?string
     {
         return $this->getField('privacy');
     }
 
     /**
      * Returns the `start_time` (Start time) as DateTime if present.
-     *
-     * @return \DateTime|null
      */
-    public function getStartTime()
+    public function getStartTime(): ?DateTime
     {
         return $this->getField('start_time');
     }
 
     /**
      * Returns the `ticket_uri` (The link users can visit to buy a ticket to this event) as string if present.
-     *
-     * @return string|null
      */
-    public function getTicketUri()
+    public function getTicketUri(): ?string
     {
         return $this->getField('ticket_uri');
     }
 
     /**
      * Returns the `timezone` (Timezone) as string if present.
-     *
-     * @return string|null
      */
-    public function getTimezone()
+    public function getTimezone(): ?string
     {
         return $this->getField('timezone');
     }
 
     /**
      * Returns the `updated_time` (Last update time) as DateTime if present.
-     *
-     * @return \DateTime|null
      */
-    public function getUpdatedTime()
+    public function getUpdatedTime(): ?DateTime
     {
         return $this->getField('updated_time');
     }
 
     /**
-     * Returns the `picture` (Event picture) as GraphPicture if present.
-     *
-     * @return GraphPicture|null
-     */
-    public function getPicture()
-    {
-        return $this->getField('picture');
-    }
-
-    /**
      * Returns the `attending_count` (Number of people attending the event) as int if present.
-     *
-     * @return int|null
      */
-    public function getAttendingCount()
+    public function getAttendingCount(): ?int
     {
         return $this->getField('attending_count');
     }
 
     /**
      * Returns the `declined_count` (Number of people who declined the event) as int if present.
-     *
-     * @return int|null
      */
-    public function getDeclinedCount()
+    public function getDeclinedCount(): ?int
     {
         return $this->getField('declined_count');
     }
 
     /**
      * Returns the `maybe_count` (Number of people who maybe going to the event) as int if present.
-     *
-     * @return int|null
      */
-    public function getMaybeCount()
+    public function getMaybeCount(): ?int
     {
         return $this->getField('maybe_count');
     }
 
     /**
      * Returns the `noreply_count` (Number of people who did not reply to the event) as int if present.
-     *
-     * @return int|null
      */
-    public function getNoreplyCount()
+    public function getNoreplyCount(): ?int
     {
         return $this->getField('noreply_count');
     }
@@ -235,8 +192,13 @@ class GraphEvent extends GraphNode
      *
      * @return int|null
      */
-    public function getInvitedCount()
+    public function getInvitedCount(): ?int
     {
         return $this->getField('invited_count');
+    }
+
+    public function getType(): ?string
+    {
+        return $this->getField('type');
     }
 }

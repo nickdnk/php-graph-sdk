@@ -21,7 +21,11 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\HttpClients;
+
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Http\GraphRawResponse;
 
 /**
  * Interface FacebookHttpClientInterface
@@ -33,15 +37,15 @@ interface FacebookHttpClientInterface
     /**
      * Sends a request to the server and returns the raw response.
      *
-     * @param string $url     The endpoint to send the request to.
-     * @param string $method  The request method.
-     * @param string $body    The body of the request.
-     * @param array  $headers The request headers.
-     * @param int    $timeOut The timeout in seconds for the request.
+     * @param string $url The endpoint to send the request to.
+     * @param string $method The request method.
+     * @param string|null $body The body of the request.
+     * @param array $headers The request headers.
+     * @param int $timeOut The timeout in seconds for the request.
      *
-     * @return \Facebook\Http\GraphRawResponse Raw response from the server.
+     * @return GraphRawResponse Raw response from the server.
      *
-     * @throws \Facebook\Exceptions\FacebookSDKException
+     * @throws FacebookSDKException
      */
-    public function send($url, $method, $body, array $headers, $timeOut);
+    public function send(string $url, string $method, ?string $body, array $headers, int $timeOut): GraphRawResponse;
 }

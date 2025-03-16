@@ -33,7 +33,7 @@ class UrandomPseudoRandomStringGenerator implements PseudoRandomStringGeneratorI
     /**
      * @const string The error message when generating the string fails.
      */
-    const ERROR_MESSAGE = 'Unable to generate a cryptographically secure pseudo-random string from /dev/urandom. ';
+    const ERROR_MESSAGE = 'Unable to generate a cryptographically secure pseudo-random string from /dev/urandom: ';
 
     /**
      * @throws FacebookSDKException
@@ -57,10 +57,10 @@ class UrandomPseudoRandomStringGenerator implements PseudoRandomStringGeneratorI
 
     /**
      * @inheritdoc
+     * @throws FacebookSDKException
      */
-    public function getPseudoRandomString($length)
+    public function getPseudoRandomString(int $length): string
     {
-        $this->validateLength($length);
 
         $stream = fopen('/dev/urandom', 'rb');
         if (!is_resource($stream)) {

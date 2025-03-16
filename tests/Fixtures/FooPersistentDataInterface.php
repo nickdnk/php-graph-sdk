@@ -27,12 +27,12 @@ use Facebook\PersistentData\PersistentDataInterface;
 
 class FooPersistentDataInterface implements PersistentDataInterface
 {
-    public function get($key)
+    public function get(mixed $key): string
     {
         return 'foo';
     }
 
-    public function set($key, $value)
+    public function set(mixed $key, mixed $value): void
     {
     }
 }

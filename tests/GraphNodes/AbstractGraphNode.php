@@ -23,30 +23,20 @@
  */
 namespace Facebook\Tests\GraphNodes;
 
+use Facebook\FacebookResponse;
 use Facebook\Tests\BaseTestCase;
 use Mockery as m;
 use Facebook\GraphNodes\GraphNodeFactory;
 
 abstract class AbstractGraphNode extends BaseTestCase
 {
-    /**
-     * @var \Facebook\FacebookResponse|\Mockery\MockInterface
-     */
-    protected $responseMock;
+
+    protected FacebookResponse $responseMock;
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->responseMock = m::mock('\Facebook\FacebookResponse');
+        $this->responseMock = m::mock(FacebookResponse::class);
     }
 
-    protected function makeFactoryWithData($data)
-    {
-        $this->responseMock
-            ->shouldReceive('getDecodedBody')
-            ->once()
-            ->andReturn($data);
-
-        return new GraphNodeFactory($this->responseMock);
-    }
 }

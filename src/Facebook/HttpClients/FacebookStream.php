@@ -41,24 +41,22 @@ class FacebookStream
     /**
      * @var array Response headers from the stream wrapper
      */
-    protected $responseHeaders = [];
+    protected array $responseHeaders = [];
 
     /**
      * Make a new context stream reference instance
-     *
-     * @param array $options
      */
-    public function streamContextCreate(array $options)
+    public function streamContextCreate(array $options): void
     {
         $this->stream = stream_context_create($options);
     }
 
     /**
      * The response headers from the stream wrapper
-     *
-     * @return array
+     * For some reason, this must be nullable or it fails when mocked in test.
+     * This array is never null.
      */
-    public function getResponseHeaders()
+    public function getResponseHeaders(): ?array
     {
         return $this->responseHeaders;
     }
@@ -68,9 +66,9 @@ class FacebookStream
      *
      * @param string $url
      *
-     * @return mixed
+     * @return string|false
      */
-    public function fileGetContents($url)
+    public function fileGetContents(string $url): string|false
     {
         $rawResponse = file_get_contents($url, false, $this->stream);
         $this->responseHeaders = $http_response_header ?: [];

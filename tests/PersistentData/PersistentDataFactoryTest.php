@@ -26,42 +26,34 @@ namespace Facebook\Tests\PersistentData;
 use Facebook\PersistentData\FacebookMemoryPersistentDataHandler;
 use Facebook\PersistentData\FacebookSessionPersistentDataHandler;
 use Facebook\PersistentData\PersistentDataFactory;
+use Facebook\PersistentData\PersistentDataInterface;
 use Facebook\Tests\BaseTestCase;
-use PHPUnit_Framework_TestCase;
 
 class PersistentDataFactoryTest extends BaseTestCase
 {
-    const COMMON_NAMESPACE = 'Facebook\PersistentData\\';
-    const COMMON_INTERFACE = 'Facebook\PersistentData\PersistentDataInterface';
 
     /**
-     * @param mixed  $handler
-     * @param string $expected
-     *
      * @dataProvider persistentDataHandlerProviders
      */
-    public function testCreatePersistentDataHandler($handler, $expected)
+    public function testCreatePersistentDataHandler(mixed $handler, string $expected)
     {
         $persistentDataHandler = PersistentDataFactory::createPersistentDataHandler($handler);
 
-        $this->assertInstanceOf(self::COMMON_INTERFACE, $persistentDataHandler);
+        $this->assertInstanceOf(PersistentDataInterface::class, $persistentDataHandler);
         $this->assertInstanceOf($expected, $persistentDataHandler);
     }
 
-    /**
-     * @return array
-     */
-    public function persistentDataHandlerProviders()
+    public function persistentDataHandlerProviders(): array
     {
         $handlers = [
-            ['memory', self::COMMON_NAMESPACE . 'FacebookMemoryPersistentDataHandler'],
-            [new FacebookMemoryPersistentDataHandler(), self::COMMON_NAMESPACE . 'FacebookMemoryPersistentDataHandler'],
-            [new FacebookSessionPersistentDataHandler(false), self::COMMON_NAMESPACE . 'FacebookSessionPersistentDataHandler'],
-            [null, self::COMMON_INTERFACE],
+            ['memory', FacebookMemoryPersistentDataHandler::class],
+            [new FacebookMemoryPersistentDataHandler(), FacebookMemoryPersistentDataHandler::class],
+            [new FacebookSessionPersistentDataHandler(false), FacebookSessionPersistentDataHandler::class],
+            [null, PersistentDataInterface::class],
         ];
 
         if (session_status() === PHP_SESSION_ACTIVE) {
-            $handlers[] = ['session', self::COMMON_NAMESPACE . 'FacebookSessionPersistentDataHandler'];
+            $handlers[] = ['session', FacebookSessionPersistentDataHandler::class];
         }
 
         return $handlers;

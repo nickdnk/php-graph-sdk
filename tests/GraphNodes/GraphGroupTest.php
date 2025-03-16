@@ -21,29 +21,41 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\Tests\GraphNodes;
 
 use Facebook\FacebookResponse;
+use Facebook\GraphNodes\GraphCoverPhoto;
+use Facebook\GraphNodes\GraphGroup;
 use Facebook\Tests\BaseTestCase;
 use Mockery as m;
 use Facebook\GraphNodes\GraphNodeFactory;
 
 class GraphGroupTest extends BaseTestCase
 {
-    /**
-     * @var FacebookResponse
-     */
-    protected $responseMock;
+
+    protected FacebookResponse $responseMock;
 
     protected function setUp(): void
     {
-        $this->responseMock = m::mock('\Facebook\FacebookResponse');
+        $this->responseMock = m::mock(FacebookResponse::class);
     }
 
     public function testCoverGetsCastAsGraphCoverPhoto()
     {
         $dataFromGraph = [
-            'cover' => ['id' => '1337']
+            'id'                   => '12848493',
+            'icon'                 => 'https://foo.bar.icon',
+            'email'                => 'foo@bar.com',
+            'description'          => 'foo description',
+            'cover'                => [
+                'id'       => '1337',
+                'source'   => 'https://foo.bar',
+                'offset_x' => 24,
+                'offset_y' => 35
+            ],
+            'member_request_count' => 403,
+            'member_count'         => 2844,
         ];
 
         $this->responseMock
@@ -51,26 +63,22 @@ class GraphGroupTest extends BaseTestCase
             ->once()
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphGroup();
+        /** @var GraphGroup $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphGroup::class);
 
         $cover = $graphNode->getCover();
-        $this->assertInstanceOf('\Facebook\GraphNodes\GraphCoverPhoto', $cover);
+        $this->assertInstanceOf(GraphCoverPhoto::class, $cover);
+        $this->assertEquals('12848493', $graphNode->getId());
+        $this->assertEquals(403, $graphNode->getMemberRequestCount());
+        $this->assertEquals(2844, $graphNode->getMemberCount());
+        $this->assertEquals('foo@bar.com', $graphNode->getEmail());
+        $this->assertEquals('https://foo.bar.icon', $graphNode->getIcon());
+        $this->assertEquals('foo description', $graphNode->getDescription());
+
+        $this->assertEquals('1337', $cover->getId());
+        $this->assertEquals(24, $cover->getOffsetX());
+        $this->assertEquals(35, $cover->getOffsetY());
+        $this->assertEquals('https://foo.bar', $cover->getSource());
     }
 
-    public function testVenueGetsCastAsGraphLocation()
-    {
-        $dataFromGraph = [
-            'venue' => ['id' => '1337']
-        ];
-
-        $this->responseMock
-            ->shouldReceive('getDecodedBody')
-            ->once()
-            ->andReturn($dataFromGraph);
-        $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphGroup();
-
-        $venue = $graphNode->getVenue();
-        $this->assertInstanceOf('\Facebook\GraphNodes\GraphLocation', $venue);
-    }
 }

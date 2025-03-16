@@ -23,6 +23,7 @@
  */
 namespace Facebook\Tests\Helpers;
 
+use Facebook\Authentication\AccessToken;
 use Facebook\FacebookApp;
 use Facebook\Tests\BaseTestCase;
 use Facebook\Tests\Fixtures\FooSignedRequestHelper;
@@ -30,14 +31,12 @@ use Facebook\Tests\Fixtures\FooSignedRequestHelperFacebookClient;
 
 class FacebookSignedRequestFromInputHelperTest extends BaseTestCase
 {
-    /**
-     * @var FooSignedRequestHelper
-     */
-    protected $helper;
 
-    public $rawSignedRequestAuthorizedWithAccessToken = 'vdZXlVEQ5NTRRTFvJ7Jeo_kP4SKnBDvbNP0fEYKS0Sg=.eyJvYXV0aF90b2tlbiI6ImZvb190b2tlbiIsImFsZ29yaXRobSI6IkhNQUMtU0hBMjU2IiwiaXNzdWVkX2F0IjoxNDAyNTUxMDMxLCJ1c2VyX2lkIjoiMTIzIn0=';
-    public $rawSignedRequestAuthorizedWithCode = 'oBtmZlsFguNQvGRETDYQQu1-PhwcArgbBBEK4urbpRA=.eyJjb2RlIjoiZm9vX2NvZGUiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTQwNjMxMDc1MiwidXNlcl9pZCI6IjEyMyJ9';
-    public $rawSignedRequestUnauthorized = 'KPlyhz-whtYAhHWr15N5TkbS_avz-2rUJFpFkfXKC88=.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTQwMjU1MTA4Nn0=';
+    protected FooSignedRequestHelper $helper;
+
+    public string $rawSignedRequestAuthorizedWithAccessToken = 'vdZXlVEQ5NTRRTFvJ7Jeo_kP4SKnBDvbNP0fEYKS0Sg=.eyJvYXV0aF90b2tlbiI6ImZvb190b2tlbiIsImFsZ29yaXRobSI6IkhNQUMtU0hBMjU2IiwiaXNzdWVkX2F0IjoxNDAyNTUxMDMxLCJ1c2VyX2lkIjoiMTIzIn0=';
+    public string $rawSignedRequestAuthorizedWithCode = 'oBtmZlsFguNQvGRETDYQQu1-PhwcArgbBBEK4urbpRA=.eyJjb2RlIjoiZm9vX2NvZGUiLCJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTQwNjMxMDc1MiwidXNlcl9pZCI6IjEyMyJ9';
+    public string $rawSignedRequestUnauthorized = 'KPlyhz-whtYAhHWr15N5TkbS_avz-2rUJFpFkfXKC88=.eyJhbGdvcml0aG0iOiJITUFDLVNIQTI1NiIsImlzc3VlZF9hdCI6MTQwMjU1MTA4Nn0=';
 
     protected function setUp(): void
     {
@@ -76,7 +75,7 @@ class FacebookSignedRequestFromInputHelperTest extends BaseTestCase
         $this->helper->instantiateSignedRequest($this->rawSignedRequestAuthorizedWithAccessToken);
         $accessToken = $this->helper->getAccessToken();
 
-        $this->assertInstanceOf('Facebook\Authentication\AccessToken', $accessToken);
+        $this->assertInstanceOf(AccessToken::class, $accessToken);
         $this->assertEquals('foo_token', $accessToken->getValue());
     }
 
@@ -85,7 +84,7 @@ class FacebookSignedRequestFromInputHelperTest extends BaseTestCase
         $this->helper->instantiateSignedRequest($this->rawSignedRequestAuthorizedWithCode);
         $accessToken = $this->helper->getAccessToken();
 
-        $this->assertInstanceOf('Facebook\Authentication\AccessToken', $accessToken);
+        $this->assertInstanceOf(AccessToken::class, $accessToken);
         $this->assertEquals('foo_access_token_from:foo_code', $accessToken->getValue());
     }
 }

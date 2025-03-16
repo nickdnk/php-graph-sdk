@@ -21,6 +21,7 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\Exceptions;
 
 /**
@@ -30,38 +31,24 @@ namespace Facebook\Exceptions;
  */
 class FacebookResumableUploadException extends FacebookSDKException
 {
-    protected $startOffset;
+    protected ?int $startOffset = null, $endOffset = null;
 
-    protected $endOffset;
-
-    /**
-     * @return int|null
-     */
-    public function getStartOffset()
+    public function getStartOffset(): ?int
     {
         return $this->startOffset;
     }
 
-    /**
-     * @param int|null $startOffset
-     */
-    public function setStartOffset($startOffset)
+    public function setStartOffset(?int $startOffset): void
     {
         $this->startOffset = $startOffset;
     }
 
-    /**
-     * @return int|null
-     */
-    public function getEndOffset()
+    public function getEndOffset(): ?int
     {
         return $this->endOffset;
     }
 
-    /**
-     * @param int|null $endOffset
-     */
-    public function setEndOffset($endOffset)
+    public function setEndOffset(?int $endOffset): void
     {
         $this->endOffset = $endOffset;
     }

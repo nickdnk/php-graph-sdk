@@ -33,12 +33,12 @@ class FacebookUrlManipulator
     /**
      * Remove params from a URL.
      *
-     * @param string $url            The URL to filter.
-     * @param array  $paramsToFilter The params to filter from the URL.
+     * @param string|null $url The URL to filter.
+     * @param array $paramsToFilter The params to filter from the URL.
      *
      * @return string The URL with the params removed.
      */
-    public static function removeParamsFromUrl($url, array $paramsToFilter)
+    public static function removeParamsFromUrl(?string $url, array $paramsToFilter): string
     {
         if (!is_string($url)) {
             return '';
@@ -62,9 +62,9 @@ class FacebookUrlManipulator
         }
 
         $scheme = isset($parts['scheme']) ? $parts['scheme'] . '://' : '';
-        $host = isset($parts['host']) ? $parts['host'] : '';
+        $host = $parts['host'] ?? '';
         $port = isset($parts['port']) ? ':' . $parts['port'] : '';
-        $path = isset($parts['path']) ? $parts['path'] : '';
+        $path = $parts['path'] ?? '';
         $fragment = isset($parts['fragment']) ? '#' . $parts['fragment'] : '';
 
         return $scheme . $host . $port . $path . $query . $fragment;
@@ -75,16 +75,14 @@ class FacebookUrlManipulator
      *
      * @param string $url       The URL that will receive the params.
      * @param array  $newParams The params to append to the URL.
-     *
-     * @return string
      */
-    public static function appendParamsToUrl($url, array $newParams = [])
+    public static function appendParamsToUrl(string $url, array $newParams = []): string
     {
         if (empty($newParams)) {
             return $url;
         }
 
-        if (strpos($url, '?') === false) {
+        if (!str_contains($url, '?')) {
             return $url . '?' . http_build_query($newParams);
         }
 
@@ -104,11 +102,11 @@ class FacebookUrlManipulator
     /**
      * Returns the params from a URL in the form of an array.
      *
-     * @param string $url The URL to parse the params from.
+     * @param string|null $url The URL to parse the params from.
      *
      * @return array
      */
-    public static function getParamsAsArray($url)
+    public static function getParamsAsArray(?string $url): array
     {
         if (!is_string($url)) {
             return [];
@@ -133,7 +131,7 @@ class FacebookUrlManipulator
      *
      * @return string The $urlToAddTo with any new params from $urlToStealFrom.
      */
-    public static function mergeUrlParams($urlToStealFrom, $urlToAddTo)
+    public static function mergeUrlParams(string $urlToStealFrom, string $urlToAddTo): string
     {
         $newParams = static::getParamsAsArray($urlToStealFrom);
         // Nothing new to add, return as-is
@@ -146,18 +144,14 @@ class FacebookUrlManipulator
 
     /**
      * Check for a "/" prefix and prepend it if not exists.
-     *
-     * @param string|null $string
-     *
-     * @return string|null
      */
-    public static function forceSlashPrefix($string)
+    public static function forceSlashPrefix(?string $string): ?string
     {
         if (!$string) {
             return $string;
         }
 
-        return strpos($string, '/') === 0 ? $string : '/' . $string;
+        return str_starts_with($string, '/') ? $string : '/' . $string;
     }
 
     /**
@@ -167,7 +161,7 @@ class FacebookUrlManipulator
      *
      * @return string The $urlToTrim with the hostname and Graph version removed.
      */
-    public static function baseGraphUrlEndpoint($urlToTrim)
+    public static function baseGraphUrlEndpoint(string $urlToTrim): string
     {
         return '/' . preg_replace('/^https:\/\/.+\.facebook\.com(\/v.+?)?\//', '', $urlToTrim);
     }

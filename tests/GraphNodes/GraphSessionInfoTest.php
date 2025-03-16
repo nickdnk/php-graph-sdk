@@ -23,20 +23,21 @@
  */
 namespace Facebook\Tests\GraphNodes;
 
+use DateTime;
+use Facebook\FacebookResponse;
+use Facebook\GraphNodes\GraphSessionInfo;
 use Facebook\Tests\BaseTestCase;
 use Mockery as m;
 use Facebook\GraphNodes\GraphNodeFactory;
 
 class GraphSessionInfoTest extends BaseTestCase
 {
-    /**
-     * @var \Facebook\FacebookResponse
-     */
-    protected $responseMock;
+
+    protected FacebookResponse $responseMock;
 
     protected function setUp(): void
     {
-        $this->responseMock = m::mock('\\Facebook\\FacebookResponse');
+        $this->responseMock = m::mock(FacebookResponse::class);
     }
 
     public function testDatesGetCastToDateTime()
@@ -52,12 +53,13 @@ class GraphSessionInfoTest extends BaseTestCase
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
 
-        $graphNode = $factory->makeGraphSessionInfo();
+        /** @var GraphSessionInfo $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphSessionInfo::class);
 
         $expires = $graphNode->getExpiresAt();
         $issuedAt = $graphNode->getIssuedAt();
 
-        $this->assertInstanceOf('DateTime', $expires);
-        $this->assertInstanceOf('DateTime', $issuedAt);
+        $this->assertInstanceOf(DateTime::class, $expires);
+        $this->assertInstanceOf(DateTime::class, $issuedAt);
     }
 }

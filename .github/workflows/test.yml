@@ -3,19 +3,22 @@ on:
   pull_request:
     branches:
       - master
+      - develop
   push:
+      branches:
+        - master
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     strategy:
       matrix:
-        php: [ '7.3', '7.4', '8.0', '8.1', '8.2', '8.3' ]
+        php: [ '8.1', '8.2', '8.3', '8.4' ]
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - run: mkdir -p build/logs
       - name: Test PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: ${{matrix.php}}
       - run: composer install
-      - run: php vendor/bin/phpunit --exclude-group integration
+      - run: php vendor/bin/phpunit

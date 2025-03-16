@@ -21,137 +21,113 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\GraphNodes;
+
+use Facebook\FileUpload\FacebookVideo;
 
 /**
  * Class GraphPage
  *
  * @package Facebook
+ * @link https://developers.facebook.com/docs/graph-api/reference/page/
  */
 class GraphPage extends GraphNode
 {
-    /**
-     * @var array Maps object key names to Graph object types.
-     */
-    protected static $graphObjectMap = [
-        'best_page' => '\Facebook\GraphNodes\GraphPage',
-        'global_brand_parent_page' => '\Facebook\GraphNodes\GraphPage',
-        'location' => '\Facebook\GraphNodes\GraphLocation',
-        'cover' => '\Facebook\GraphNodes\GraphCoverPhoto',
-        'picture' => '\Facebook\GraphNodes\GraphPicture',
+    protected static array $graphObjectMap = [
+        'featured_video'  => GraphVideo::class,
+        'engagement'      => GraphEngagement::class,
+        'contact_address' => GraphMailingAddress::class,
+        'best_page'       => GraphPage::class,
+        'location'        => GraphLocation::class,
+        'cover'           => GraphCoverPhoto::class
     ];
 
-    /**
-     * Returns the ID for the user's page as a string if present.
-     *
-     * @return string|null
-     */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->getField('id');
     }
 
-    /**
-     * Returns the Category for the user's page as a string if present.
-     *
-     * @return string|null
-     */
-    public function getCategory()
+    public function getAbout(): ?string
+    {
+        return $this->getField('about');
+    }
+
+    public function getCategory(): ?string
     {
         return $this->getField('category');
     }
 
+    public function getDescription(): ?string
+    {
+        return $this->getField('description');
+    }
+
+    public function getDescriptionHtml(): ?string
+    {
+        return $this->getField('description_html');
+    }
+
     /**
-     * Returns the Name of the user's page as a string if present.
-     *
-     * @return string|null
+     * @return ?string[]
      */
-    public function getName()
+    public function getEmails(): ?array
+    {
+        return $this->getField('emails');
+    }
+
+    public function getEngagement(): ?GraphEngagement
+    {
+        return $this->getField('engagement');
+    }
+
+    public function getName(): ?string
     {
         return $this->getField('name');
     }
 
-    /**
-     * Returns the best available Page on Facebook.
-     *
-     * @return GraphPage|null
-     */
-    public function getBestPage()
+    public function getAppId(): ?string
+    {
+        return $this->getField('app_id');
+    }
+
+    public function getBestPage(): ?GraphPage
     {
         return $this->getField('best_page');
     }
 
-    /**
-     * Returns the brand's global (parent) Page.
-     *
-     * @return GraphPage|null
-     */
-    public function getGlobalBrandParentPage()
-    {
-        return $this->getField('global_brand_parent_page');
-    }
-
-    /**
-     * Returns the location of this place.
-     *
-     * @return GraphLocation|null
-     */
-    public function getLocation()
+    public function getLocation(): ?GraphLocation
     {
         return $this->getField('location');
     }
 
-    /**
-     * Returns CoverPhoto of the Page.
-     *
-     * @return GraphCoverPhoto|null
-     */
-    public function getCover()
+    public function getCover(): ?GraphCoverPhoto
     {
         return $this->getField('cover');
     }
 
-    /**
-     * Returns Picture of the Page.
-     *
-     * @return GraphPicture|null
-     */
-    public function getPicture()
-    {
-        return $this->getField('picture');
-    }
-
-    /**
-     * Returns the page access token for the admin user.
-     *
-     * Only available in the `/me/accounts` context.
-     *
-     * @return string|null
-     */
-    public function getAccessToken()
+    public function getAccessToken(): ?string
     {
         return $this->getField('access_token');
     }
 
-    /**
-     * Returns the roles of the page admin user.
-     *
-     * Only available in the `/me/accounts` context.
-     *
-     * @return array|null
-     */
-    public function getPerms()
+    public function getAffiliation(): ?string
     {
-        return $this->getField('perms');
+        return $this->getField('affiliation');
     }
 
-    /**
-     * Returns the `fan_count` (Number of people who likes to page) as int if present.
-     *
-     * @return int|null
-     */
-    public function getFanCount()
+    public function getFanCount(): ?int
     {
         return $this->getField('fan_count');
+    }
+
+    public function getFeaturedVideo(): ?GraphVideo
+    {
+        return $this->getField('featured_video');
+    }
+
+    public function getContactAddress(): ?GraphMailingAddress
+    {
+        return $this->getField('contact_address');
     }
 }

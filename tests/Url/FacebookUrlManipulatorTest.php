@@ -31,7 +31,7 @@ class FacebookUrlManipulatorTest extends BaseTestCase
     /**
      * @dataProvider provideUris
      */
-    public function testParamsGetRemovedFromAUrl($dirtyUrl, $expectedCleanUrl)
+    public function testParamsGetRemovedFromAUrl(string $dirtyUrl, string $expectedCleanUrl)
     {
         $removeParams = [
             'state',
@@ -45,7 +45,7 @@ class FacebookUrlManipulatorTest extends BaseTestCase
         $this->assertEquals($expectedCleanUrl, $currentUri);
     }
 
-    public function provideUris()
+    public function provideUris(): array
     {
         return [
             [
@@ -156,14 +156,14 @@ class FacebookUrlManipulatorTest extends BaseTestCase
     /**
      * @dataProvider provideMergableEndpoints
      */
-    public function testParamsCanBeMergedOntoUrlProperly($urlOne, $urlTwo, $expected)
+    public function testParamsCanBeMergedOntoUrlProperly(string $urlOne, string $urlTwo, string $expected)
     {
         $result = FacebookUrlManipulator::mergeUrlParams($urlOne, $urlTwo);
 
         $this->assertEquals($result, $expected);
     }
 
-    public function provideMergableEndpoints()
+    public function provideMergableEndpoints(): array
     {
         return [
             [

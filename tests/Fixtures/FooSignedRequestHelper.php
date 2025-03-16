@@ -27,7 +27,7 @@ use Facebook\Helpers\FacebookSignedRequestFromInputHelper;
 
 class FooSignedRequestHelper extends FacebookSignedRequestFromInputHelper
 {
-    public function getRawSignedRequest()
+    public function getRawSignedRequest(): ?string
     {
         return null;
     }

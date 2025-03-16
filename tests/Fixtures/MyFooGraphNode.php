@@ -27,7 +27,7 @@ use Facebook\GraphNodes\GraphNode;
 
 class MyFooGraphNode extends GraphNode
 {
-    protected static $graphObjectMap = [
+    protected static array $graphObjectMap = [
         'foo_object' => '\Facebook\Tests\Fixtures\MyFooSubClassGraphNode',
     ];
 }

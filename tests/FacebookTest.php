@@ -26,20 +26,31 @@ namespace Facebook\Tests;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Facebook;
+use Facebook\FacebookBatchRequest;
 use Facebook\FacebookClient;
 use Facebook\FacebookRequest;
 use Facebook\Authentication\AccessToken;
+use Facebook\FacebookResponse;
 use Facebook\GraphNodes\GraphEdge;
+use Facebook\GraphNodes\GraphUser;
+use Facebook\HttpClients\FacebookCurlHttpClient;
+use Facebook\HttpClients\FacebookGuzzleHttpClient;
+use Facebook\HttpClients\FacebookStreamHttpClient;
+use Facebook\PersistentData\FacebookMemoryPersistentDataHandler;
+use Facebook\PseudoRandomString\OpenSslPseudoRandomStringGenerator;
+use Facebook\PseudoRandomString\RandomBytesPseudoRandomStringGenerator;
+use Facebook\PseudoRandomString\UrandomPseudoRandomStringGenerator;
 use Facebook\Tests\Fixtures\FakeGraphApiForResumableUpload;
 use Facebook\Tests\Fixtures\FooBarPseudoRandomStringGenerator;
 use Facebook\Tests\Fixtures\FooClientInterface;
 use Facebook\Tests\Fixtures\FooPersistentDataInterface;
 use Facebook\Tests\Fixtures\FooUrlDetectionInterface;
+use Facebook\Url\FacebookUrlDetectionHandler;
 use InvalidArgumentException;
 
 class FacebookTest extends BaseTestCase
 {
-    protected $config = [
+    protected array $config = [
         'app_id' => '1337',
         'app_secret' => 'foo_secret',
     ];
@@ -88,7 +99,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\HttpClients\FacebookCurlHttpClient',
+            FacebookCurlHttpClient::class,
             $fb->getClient()->getHttpClientHandler()
         );
     }
@@ -100,7 +111,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\HttpClients\FacebookStreamHttpClient',
+            FacebookStreamHttpClient::class,
             $fb->getClient()->getHttpClientHandler()
         );
     }
@@ -112,7 +123,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\HttpClients\FacebookGuzzleHttpClient',
+            FacebookGuzzleHttpClient::class,
             $fb->getClient()->getHttpClientHandler()
         );
     }
@@ -133,7 +144,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\PersistentData\FacebookMemoryPersistentDataHandler',
+            FacebookMemoryPersistentDataHandler::class,
             $fb->getRedirectLoginHelper()->getPersistentDataHandler()
         );
     }
@@ -155,7 +166,7 @@ class FacebookTest extends BaseTestCase
     public function testTheUrlHandlerWillDefaultToTheFacebookImplementation()
     {
         $fb = new Facebook($this->config);
-        $this->assertInstanceOf('Facebook\Url\FacebookUrlDetectionHandler', $fb->getUrlDetectionHandler());
+        $this->assertInstanceOf(FacebookUrlDetectionHandler::class, $fb->getUrlDetectionHandler());
     }
 
     public function testAnAccessTokenCanBeSetAsAString()
@@ -164,7 +175,7 @@ class FacebookTest extends BaseTestCase
         $fb->setDefaultAccessToken('foo_token');
         $accessToken = $fb->getDefaultAccessToken();
 
-        $this->assertInstanceOf('Facebook\Authentication\AccessToken', $accessToken);
+        $this->assertInstanceOf(AccessToken::class, $accessToken);
         $this->assertEquals('foo_token', (string)$accessToken);
     }
 
@@ -174,7 +185,7 @@ class FacebookTest extends BaseTestCase
         $fb->setDefaultAccessToken(new AccessToken('bar_token'));
         $accessToken = $fb->getDefaultAccessToken();
 
-        $this->assertInstanceOf('Facebook\Authentication\AccessToken', $accessToken);
+        $this->assertInstanceOf(AccessToken::class, $accessToken);
         $this->assertEquals('bar_token', (string)$accessToken);
     }
 
@@ -196,7 +207,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\PseudoRandomString\RandomBytesPseudoRandomStringGenerator',
+            RandomBytesPseudoRandomStringGenerator::class,
             $fb->getRedirectLoginHelper()->getPseudoRandomStringGenerator()
         );
     }
@@ -215,7 +226,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\PseudoRandomString\OpenSslPseudoRandomStringGenerator',
+            OpenSslPseudoRandomStringGenerator::class,
             $fb->getRedirectLoginHelper()->getPseudoRandomStringGenerator()
         );
     }
@@ -240,7 +251,7 @@ class FacebookTest extends BaseTestCase
         ]);
         $fb = new Facebook($config);
         $this->assertInstanceOf(
-            'Facebook\PseudoRandomString\UrandomPseudoRandomStringGenerator',
+            UrandomPseudoRandomStringGenerator::class,
             $fb->getRedirectLoginHelper()->getPseudoRandomStringGenerator()
         );
     }
@@ -292,8 +303,8 @@ class FacebookTest extends BaseTestCase
             FacebookClient::BASE_GRAPH_URL_BETA,
             $fb->getClient()->getBaseGraphUrl()
         );
-        $this->assertInstanceOf('Facebook\FacebookBatchRequest', $batchRequest);
-        $this->assertEquals(0, count($batchRequest->getRequests()));
+        $this->assertInstanceOf(FacebookBatchRequest::class, $batchRequest);
+        $this->assertCount(0, $batchRequest->getRequests());
     }
 
     public function testCanInjectCustomHandlers()
@@ -307,19 +318,19 @@ class FacebookTest extends BaseTestCase
         $fb = new Facebook($config);
 
         $this->assertInstanceOf(
-            'Facebook\Tests\Fixtures\FooClientInterface',
+            FooClientInterface::class,
             $fb->getClient()->getHttpClientHandler()
         );
         $this->assertInstanceOf(
-            'Facebook\Tests\Fixtures\FooPersistentDataInterface',
+            FooPersistentDataInterface::class,
             $fb->getRedirectLoginHelper()->getPersistentDataHandler()
         );
         $this->assertInstanceOf(
-            'Facebook\Tests\Fixtures\FooUrlDetectionInterface',
+            FooUrlDetectionInterface::class,
             $fb->getRedirectLoginHelper()->getUrlDetectionHandler()
         );
         $this->assertInstanceOf(
-            'Facebook\Tests\Fixtures\FooBarPseudoRandomStringGenerator',
+            FooBarPseudoRandomStringGenerator::class,
             $fb->getRedirectLoginHelper()->getPseudoRandomStringGenerator()
         );
     }
@@ -346,16 +357,16 @@ class FacebookTest extends BaseTestCase
                 ]
             ],
             '/1337/photos',
-            '\Facebook\GraphNodes\GraphUser'
+            GraphUser::class
         );
 
         $nextPage = $fb->next($graphEdge);
-        $this->assertInstanceOf('Facebook\GraphNodes\GraphEdge', $nextPage);
-        $this->assertInstanceOf('Facebook\GraphNodes\GraphUser', $nextPage[0]);
+        $this->assertInstanceOf(GraphEdge::class, $nextPage);
+        $this->assertInstanceOf(GraphUser::class, $nextPage[0]);
         $this->assertEquals('Foo', $nextPage[0]['name']);
 
         $lastResponse = $fb->getLastResponse();
-        $this->assertInstanceOf('Facebook\FacebookResponse', $lastResponse);
+        $this->assertInstanceOf(FacebookResponse::class, $lastResponse);
         $this->assertEquals(1337, $lastResponse->getHttpStatusCode());
     }
 

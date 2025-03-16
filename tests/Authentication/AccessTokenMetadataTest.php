@@ -23,6 +23,7 @@
  */
 namespace Facebook\Tests\Authentication;
 
+use DateTime;
 use Facebook\Authentication\AccessTokenMetadata;
 use Facebook\Exceptions\FacebookSDKException;
 use Facebook\Tests\BaseTestCase;
@@ -30,7 +31,7 @@ use Facebook\Tests\BaseTestCase;
 class AccessTokenMetadataTest extends BaseTestCase
 {
 
-    protected $graphResponseData = [
+    protected array $graphResponseData = [
         'data' => [
             'app_id' => '123',
             'application' => 'Foo App',
@@ -60,8 +61,8 @@ class AccessTokenMetadataTest extends BaseTestCase
         $expires = $metadata->getExpiresAt();
         $issuedAt = $metadata->getIssuedAt();
 
-        $this->assertInstanceOf('DateTime', $expires);
-        $this->assertInstanceOf('DateTime', $issuedAt);
+        $this->assertInstanceOf(DateTime::class, $expires);
+        $this->assertInstanceOf(DateTime::class, $issuedAt);
     }
 
     public function testAllTheGettersReturnTheProperValue(): void
@@ -129,7 +130,7 @@ class AccessTokenMetadataTest extends BaseTestCase
 
     public function testAnExpiredAccessTokenWillThrow(): void
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
 
         $this->graphResponseData['data']['expires_at'] = time() - 1000;
         $metadata = new AccessTokenMetadata($this->graphResponseData);

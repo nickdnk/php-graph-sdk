@@ -23,20 +23,21 @@
  */
 namespace Facebook\Tests\GraphNodes;
 
+use Facebook\FacebookResponse;
+use Facebook\GraphNodes\GraphLocation;
+use Facebook\GraphNodes\GraphPage;
+use Facebook\GraphNodes\GraphVideo;
 use Facebook\Tests\BaseTestCase;
 use Mockery as m;
 use Facebook\GraphNodes\GraphNodeFactory;
 
 class GraphPageTest extends BaseTestCase
 {
-    /**
-     * @var \Facebook\FacebookResponse
-     */
-    protected $responseMock;
+    protected FacebookResponse $responseMock;
 
     protected function setUp(): void
     {
-        $this->responseMock = m::mock('\\Facebook\\FacebookResponse');
+        $this->responseMock = m::mock(FacebookResponse::class);
     }
 
     public function testPagePropertiesReturnGraphPageObjects()
@@ -48,10 +49,13 @@ class GraphPageTest extends BaseTestCase
                 'id' => '1',
                 'name' => 'Bar Page',
             ],
-            'global_brand_parent_page' => [
+            'featured_video' => [
                 'id' => '2',
-                'name' => 'Faz Page',
+                'is_reference_only' => true,
             ],
+            'contact_address' => [
+                'street1' => '123 Fake St',
+            ]
         ];
 
         $this->responseMock
@@ -59,26 +63,31 @@ class GraphPageTest extends BaseTestCase
             ->once()
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphPage();
+        /** @var GraphPage $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphPage::class);
 
         $bestPage = $graphNode->getBestPage();
-        $globalBrandParentPage = $graphNode->getGlobalBrandParentPage();
+        $video = $graphNode->getFeaturedVideo();
 
-        $this->assertInstanceOf('\\Facebook\\GraphNodes\\GraphPage', $bestPage);
-        $this->assertInstanceOf('\\Facebook\\GraphNodes\\GraphPage', $globalBrandParentPage);
+        $this->assertInstanceOf(GraphPage::class, $bestPage);
+        $this->assertInstanceOf(GraphVideo::class, $video);
+        $this->assertEquals('2', $video->getId());
+        $this->assertTrue($video->isReferenceOnly());
     }
 
     public function testLocationPropertyWillGetCastAsGraphLocationObject()
     {
         $dataFromGraph = [
-            'id' => '123',
-            'name' => 'Foo Page',
+            'id'       => '123',
+            'name'     => 'Foo Page',
             'location' => [
-                'city' => 'Washington',
-                'country' => 'United States',
-                'latitude' => 38.881634205431,
+                'city'      => 'Washington',
+                'country'   => 'United States',
+                'latitude'  => 38.881634205431,
                 'longitude' => -77.029121075722,
-                'state' => 'DC',
+                'state'     => 'DC',
+                'zip'       => '19933',
+                'street'    => 'Pennsylvania Avenue 2',
             ],
         ];
 
@@ -87,10 +96,18 @@ class GraphPageTest extends BaseTestCase
             ->once()
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphPage();
+        /** @var GraphPage $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphPage::class);
 
         $location = $graphNode->getLocation();
 
-        $this->assertInstanceOf('\\Facebook\\GraphNodes\\GraphLocation', $location);
+        $this->assertInstanceOf(GraphLocation::class, $location);
+        $this->assertEquals('Washington', $location->getCity());
+        $this->assertEquals(38.881634205431, $location->getLatitude());
+        $this->assertEquals(-77.029121075722, $location->getLongitude());
+        $this->assertEquals('DC', $location->getState());
+        $this->assertEquals('United States', $location->getCountry());
+        $this->assertEquals('19933', $location->getZip());
+        $this->assertEquals('Pennsylvania Avenue 2', $location->getStreet());
     }
 }

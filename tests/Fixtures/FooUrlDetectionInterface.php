@@ -27,7 +27,7 @@ use Facebook\Url\UrlDetectionInterface;
 
 class FooUrlDetectionInterface implements UrlDetectionInterface
 {
-    public function getCurrentUrl()
+    public function getCurrentUrl(): string
     {
         return 'https://foo.bar';
     }

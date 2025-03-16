@@ -27,10 +27,8 @@ use Facebook\FacebookApp;
 
 class FacebookAppTest extends BaseTestCase
 {
-    /**
-     * @var FacebookApp
-     */
-    private $app;
+
+    private FacebookApp $app;
 
     protected function setUp(): void
     {
@@ -51,7 +49,6 @@ class FacebookAppTest extends BaseTestCase
     {
         $accessToken = $this->app->getAccessToken();
 
-        $this->assertInstanceOf('Facebook\Authentication\AccessToken', $accessToken);
         $this->assertEquals('id|secret', (string)$accessToken);
     }
 
@@ -59,15 +56,9 @@ class FacebookAppTest extends BaseTestCase
     {
         $newApp = unserialize(serialize($this->app));
 
-        $this->assertInstanceOf('Facebook\FacebookApp', $newApp);
+        $this->assertInstanceOf(FacebookApp::class, $newApp);
         $this->assertEquals('id', $newApp->getId());
         $this->assertEquals('secret', $newApp->getSecret());
-    }
-
-    public function testOverflowIntegersWillThrow()
-    {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
-        new FacebookApp(PHP_INT_MAX + 1, "foo");
     }
 
     public function testUnserializedIdsWillBeString()

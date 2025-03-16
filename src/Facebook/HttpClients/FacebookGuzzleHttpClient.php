@@ -36,12 +36,12 @@ class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
     /**
      * @var Client The Guzzle client.
      */
-    protected $guzzleClient;
+    protected Client $guzzleClient;
 
     /**
      * @param Client|null $guzzleClient The Guzzle client.
      */
-    public function __construct(Client $guzzleClient = null)
+    public function __construct(?Client $guzzleClient = null)
     {
         $this->guzzleClient = $guzzleClient ?: new Client();
     }
@@ -49,16 +49,19 @@ class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
     /**
      * @inheritdoc
      */
-    public function send($url, $method, $body, array $headers, $timeOut)
+    public function send(string $url, string $method, ?string $body, array $headers, int $timeOut): GraphRawResponse
     {
         $options = [
             'headers'         => $headers,
-            'body'            => $body,
             'timeout'         => $timeOut,
             'http_errors'     => false,
             'connect_timeout' => 10,
             'verify'          => __DIR__ . '/certs/DigiCertHighAssuranceEVRootCA.pem',
         ];
+
+        if ($body) {
+            $options['body'] = $body;
+        }
 
         try {
 
@@ -80,10 +83,8 @@ class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
      * Returns the Guzzle array of headers as a string.
      *
      * @param ResponseInterface $response The Guzzle response.
-     *
-     * @return string
      */
-    public function getHeadersAsString(ResponseInterface $response)
+    public function getHeadersAsString(ResponseInterface $response): string
     {
         $headers = $response->getHeaders();
         $rawHeaders = [];

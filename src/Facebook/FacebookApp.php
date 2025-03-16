@@ -31,89 +31,76 @@ class FacebookApp implements \Serializable
     /**
      * @var string The app ID.
      */
-    protected $id;
+    protected string $id;
 
     /**
      * @var string The app secret.
      */
-    protected $secret;
+    protected string $secret;
 
     /**
-     * @param string $id
+     * @param string|int $id
      * @param string $secret
      *
      * @throws FacebookSDKException
      */
-    public function __construct($id, $secret)
+    public function __construct(string|int $id, string $secret)
     {
-        if (!is_string($id)
-          // Keeping this for BC. Integers greater than PHP_INT_MAX will make is_int() return false
-          && !is_int($id)) {
-            throw new FacebookSDKException('The "app_id" must be formatted as a string since many app ID\'s are greater than PHP_INT_MAX on some systems.');
+        if (!is_string($id) && PHP_INT_SIZE === 4) {
+            throw new FacebookSDKException('The "app_id" must be formatted as a string when PHP is running in 32 bit mode.');
         }
-        // We cast as a string in case a valid int was set on a 64-bit system and this is unserialised on a 32-bit system
         $this->id = (string) $id;
         $this->secret = $secret;
     }
 
     /**
      * Returns the app ID.
-     *
-     * @return string
      */
-    public function getId()
+    public function getId(): string
     {
         return $this->id;
     }
 
     /**
      * Returns the app secret.
-     *
-     * @return string
      */
-    public function getSecret()
+    public function getSecret(): string
     {
         return $this->secret;
     }
 
     /**
      * Returns an app access token.
-     *
-     * @return AccessToken
      */
-    public function getAccessToken()
+    public function getAccessToken(): AccessToken
     {
         return new AccessToken($this->id . '|' . $this->secret);
     }
 
     /**
      * Serializes the FacebookApp entity as a string.
-     *
-     * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
         return implode('|', [$this->id, $this->secret]);
     }
 
-    public function __serialize()
+    public function __serialize(): array
     {
         return ['id' => $this->id, 'secret' => $this->secret];
     }
 
     /**
      * Unserializes a string as a FacebookApp entity.
-     *
-     * @param string $serialized
      */
-    public function unserialize($serialized)
+    public function unserialize(string $serialized): void
     {
         list($id, $secret) = explode('|', $serialized);
 
         $this->__construct($id, $secret);
     }
 
-    public function __unserialize($data)
+    public function __unserialize($data): void
     {
         $this->__construct($data['id'], $data['secret']);
     }

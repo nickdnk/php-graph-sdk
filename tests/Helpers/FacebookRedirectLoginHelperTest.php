@@ -35,15 +35,8 @@ use Facebook\PseudoRandomString\PseudoRandomStringGeneratorInterface;
 
 class FacebookRedirectLoginHelperTest extends BaseTestCase
 {
-    /**
-     * @var FacebookMemoryPersistentDataHandler
-     */
-    protected $persistentDataHandler;
-
-    /**
-     * @var FacebookRedirectLoginHelper
-     */
-    protected $redirectLoginHelper;
+    protected FacebookMemoryPersistentDataHandler $persistentDataHandler;
+    protected FacebookRedirectLoginHelper $redirectLoginHelper;
 
     const REDIRECT_URL = 'http://invalid.zzz';
     const FOO_CODE = "foo_code";

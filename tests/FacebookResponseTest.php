@@ -23,16 +23,16 @@
  */
 namespace Facebook\Tests;
 
+use Facebook\Exceptions\FacebookResponseException;
 use Facebook\FacebookApp;
 use Facebook\FacebookRequest;
 use Facebook\FacebookResponse;
+use Facebook\GraphNodes\GraphNode;
 
 class FacebookResponseTest extends BaseTestCase
 {
-    /**
-     * @var \Facebook\FacebookRequest
-     */
-    protected $request;
+
+    protected FacebookRequest $request;
 
     protected function setUp(): void
     {
@@ -79,7 +79,7 @@ class FacebookResponseTest extends BaseTestCase
             'id' => '123',
             'name' => 'Foo',
         ], $decodedResponse);
-        $this->assertInstanceOf('Facebook\GraphNodes\GraphNode', $graphNode);
+        $this->assertInstanceOf(GraphNode::class, $graphNode);
     }
 
     public function testASuccessfulJsonResponseWillBeDecodedToAGraphEdge()
@@ -90,8 +90,8 @@ class FacebookResponseTest extends BaseTestCase
         $graphEdge = $response->getGraphEdge();
 
         $this->assertFalse($response->isError(), 'Did not expect Response to return an error.');
-        $this->assertInstanceOf('Facebook\GraphNodes\GraphNode', $graphEdge[0]);
-        $this->assertInstanceOf('Facebook\GraphNodes\GraphNode', $graphEdge[1]);
+        $this->assertInstanceOf(GraphNode::class, $graphEdge[0]);
+        $this->assertInstanceOf(GraphNode::class, $graphEdge[1]);
     }
 
     public function testASuccessfulUrlEncodedKeyValuePairResponseWillBeDecoded()
@@ -116,6 +116,6 @@ class FacebookResponseTest extends BaseTestCase
         $exception = $response->getThrownException();
 
         $this->assertTrue($response->isError(), 'Expected Response to return an error.');
-        $this->assertInstanceOf('Facebook\Exceptions\FacebookResponseException', $exception);
+        $this->assertInstanceOf(FacebookResponseException::class, $exception);
     }
 }

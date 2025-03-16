@@ -23,12 +23,13 @@
  */
 namespace Facebook\Tests\FileUpload;
 
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\FileUpload\FacebookFile;
 use Facebook\Tests\BaseTestCase;
 
 class FacebookFileTest extends BaseTestCase
 {
-    protected $testFile = '';
+    protected string $testFile = '';
 
     protected function setUp(): void
     {
@@ -40,7 +41,7 @@ class FacebookFileTest extends BaseTestCase
         $file = new FacebookFile($this->testFile);
         $fileContents = $file->getContents();
 
-        $this->assertEquals('This is a text file used for testing. Let\'s dance.', $fileContents);
+        $this->assertEquals('This is a text file used for testing.', $fileContents);
     }
 
     public function testPartialFilesCanBeCreated()
@@ -53,7 +54,7 @@ class FacebookFileTest extends BaseTestCase
 
     public function testTryingToOpenAFileThatDoesntExistsThrows()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         new FacebookFile('does_not_exist.file');
     }
 }

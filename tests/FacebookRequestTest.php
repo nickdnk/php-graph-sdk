@@ -36,7 +36,7 @@ class FacebookRequestTest extends BaseTestCase
         $app = new FacebookApp('123', 'foo_secret');
         $request = new FacebookRequest($app);
 
-        $this->assertInstanceOf('Facebook\FacebookRequest', $request);
+        $this->assertInstanceOf(FacebookRequest::class, $request);
     }
 
     public function testAMissingAccessTokenWillThrow()

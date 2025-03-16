@@ -28,7 +28,7 @@ use Facebook\HttpClients\FacebookHttpClientInterface;
 
 class FooClientInterface implements FacebookHttpClientInterface
 {
-    public function send($url, $method, $body, array $headers, $timeOut)
+    public function send(string $url, string $method, ?string $body, array $headers, int $timeOut): GraphRawResponse
     {
         return new GraphRawResponse(
             "HTTP/1.1 1337 OK\r\nDate: Mon, 19 May 2014 18:37:17 GMT",

@@ -23,6 +23,8 @@
  */
 namespace Facebook\PseudoRandomString;
 
+use InvalidArgumentException;
+
 /**
  * Interface
  *
@@ -39,7 +41,7 @@ interface PseudoRandomStringGeneratorInterface
      *
      * @return string
      *
-     * @throws \Facebook\Exceptions\FacebookSDKException|\InvalidArgumentException
+     * @throws InvalidArgumentException
      */
-    public function getPseudoRandomString($length);
+    public function getPseudoRandomString(int $length): string;
 }

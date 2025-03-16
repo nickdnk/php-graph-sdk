@@ -35,5 +35,5 @@ interface UrlDetectionInterface
      *
      * @return string
      */
-    public function getCurrentUrl();
+    public function getCurrentUrl(): string;
 }

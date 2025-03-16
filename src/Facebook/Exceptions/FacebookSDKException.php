@@ -23,11 +23,13 @@
  */
 namespace Facebook\Exceptions;
 
+use Exception;
+
 /**
  * Class FacebookSDKException
  *
  * @package Facebook
  */
-class FacebookSDKException extends \Exception
+class FacebookSDKException extends Exception
 {
 }

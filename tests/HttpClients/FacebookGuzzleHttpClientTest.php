@@ -26,6 +26,8 @@ namespace Facebook\Tests\HttpClients;
 
 
 use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Http\GraphRawResponse;
+use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use GuzzleHttp\Psr7\Utils;
@@ -35,19 +37,14 @@ use GuzzleHttp\Exception\RequestException;
 
 class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
 {
-    /**
-     * @var \GuzzleHttp\Client
-     */
-    protected $guzzleMock;
 
-    /**
-     * @var FacebookGuzzleHttpClient
-     */
-    protected $guzzleClient;
+    protected Client $guzzleMock;
+
+    protected FacebookGuzzleHttpClient $guzzleClient;
 
     protected function setUp(): void
     {
-        $this->guzzleMock = m::mock('GuzzleHttp\Client');
+        $this->guzzleMock = m::mock(Client::class);
         $this->guzzleClient = new FacebookGuzzleHttpClient($this->guzzleMock);
     }
 
@@ -89,7 +86,7 @@ class FacebookGuzzleHttpClientTest extends AbstractTestHttpClient
 
         $response = $this->guzzleClient->send('http://foo.com/', 'GET', 'foo_body', ['X-foo' => 'bar'], 123);
 
-        $this->assertInstanceOf('Facebook\Http\GraphRawResponse', $response);
+        $this->assertInstanceOf(GraphRawResponse::class, $response);
         $this->assertEquals($this->fakeRawBody, $response->getBody());
         $this->assertEquals($this->fakeHeadersAsArray, $response->getHeaders());
         $this->assertEquals(200, $response->getHttpResponseCode());

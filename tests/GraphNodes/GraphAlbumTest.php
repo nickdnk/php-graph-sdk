@@ -23,6 +23,12 @@
  */
 namespace Facebook\Tests\GraphNodes;
 
+use DateTime;
+use Facebook\FacebookResponse;
+use Facebook\GraphNodes\GraphAlbum;
+use Facebook\GraphNodes\GraphLocation;
+use Facebook\GraphNodes\GraphPlace;
+use Facebook\GraphNodes\GraphUser;
 use Facebook\Tests\BaseTestCase;
 use Mockery as m;
 use Facebook\GraphNodes\GraphNodeFactory;
@@ -30,14 +36,11 @@ use Facebook\GraphNodes\GraphNodeFactory;
 class GraphAlbumTest extends BaseTestCase
 {
 
-    /**
-     * @var \Facebook\FacebookResponse
-     */
-    protected $responseMock;
+    protected FacebookResponse $responseMock;
 
     protected function setUp(): void
     {
-        $this->responseMock = m::mock('\\Facebook\\FacebookResponse');
+        $this->responseMock = m::mock(FacebookResponse::class);
     }
 
     public function testDatesGetCastToDateTime()
@@ -54,13 +57,14 @@ class GraphAlbumTest extends BaseTestCase
             ->once()
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphAlbum();
+        /** @var GraphAlbum $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphAlbum::class);
 
         $createdTime = $graphNode->getCreatedTime();
         $updatedTime = $graphNode->getUpdatedTime();
 
-        $this->assertInstanceOf('DateTime', $createdTime);
-        $this->assertInstanceOf('DateTime', $updatedTime);
+        $this->assertInstanceOf(DateTime::class, $createdTime);
+        $this->assertInstanceOf(DateTime::class, $updatedTime);
     }
 
     public function testFromGetsCastAsGraphUser()
@@ -78,14 +82,15 @@ class GraphAlbumTest extends BaseTestCase
             ->once()
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphAlbum();
+        /** @var GraphAlbum $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphAlbum::class);
 
         $from = $graphNode->getFrom();
 
-        $this->assertInstanceOf('\\Facebook\\GraphNodes\\GraphUser', $from);
+        $this->assertInstanceOf(GraphUser::class, $from);
     }
 
-    public function testPlacePropertyWillGetCastAsGraphPageObject()
+    public function testPlacePropertyWillGetCastAsGraphPlaceObject()
     {
         $dataFromGraph = [
             'id' => '123',
@@ -93,6 +98,16 @@ class GraphAlbumTest extends BaseTestCase
             'place' => [
                 'id' => '1',
                 'name' => 'For Bar Place',
+                'overall_rating' => 4.5,
+                'location' => [
+                    'street' => 'Foo Street',
+                    'city' => 'Bar City',
+                    'state' => 'CA',
+                    'country' => 'US',
+                    'zip' => '90210',
+                    'latitude' => 49.55,
+                    'longitude' => -34.444
+                ]
             ]
         ];
 
@@ -101,10 +116,25 @@ class GraphAlbumTest extends BaseTestCase
             ->once()
             ->andReturn($dataFromGraph);
         $factory = new GraphNodeFactory($this->responseMock);
-        $graphNode = $factory->makeGraphAlbum();
+        /** @var GraphAlbum $graphNode */
+        $graphNode = $factory->makeGraphNode(GraphAlbum::class);
 
         $place = $graphNode->getPlace();
+        $location = $place->getLocation();
 
-        $this->assertInstanceOf('\\Facebook\\GraphNodes\\GraphPage', $place);
+        $this->assertInstanceOf(GraphPlace::class, $place);
+        $this->assertInstanceOf(GraphLocation::class, $place->getLocation());
+
+        $this->assertEquals('For Bar Place', $place->getName());
+        $this->assertEquals(4.5, $place->getOverallRating());
+
+        $this->assertEquals('Foo Street', $location->getStreet());
+        $this->assertEquals('Bar City', $location->getCity());
+        $this->assertEquals('CA', $location->getState());
+        $this->assertEquals('90210', $location->getZip());
+        $this->assertEquals(49.55, $location->getLatitude());
+        $this->assertEquals(-34.444, $location->getLongitude());
+        $this->assertEquals('US', $location->getCountry());
+
     }
 }

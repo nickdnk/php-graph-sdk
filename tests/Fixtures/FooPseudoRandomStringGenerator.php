@@ -27,7 +27,7 @@ use Facebook\PseudoRandomString\PseudoRandomStringGeneratorInterface;
 
 class FooPseudoRandomStringGenerator implements PseudoRandomStringGeneratorInterface
 {
-    public function getPseudoRandomString($length)
+    public function getPseudoRandomString($length): string
     {
         return 'csprs123';
     }

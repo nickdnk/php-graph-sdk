@@ -97,14 +97,6 @@ class FacebookBatchRequestTest extends BaseTestCase
         $request->addFallbackDefaults(new FacebookRequest($this->app));
     }
 
-    public function testAnInvalidTypeGivenToAddWillThrow()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $request = new FacebookBatchRequest();
-
-        $request->add('foo');
-    }
-
     public function testAddingRequestsWillBeFormattedInAnArrayProperly()
     {
         $requests = [
@@ -194,7 +186,7 @@ class FacebookBatchRequestTest extends BaseTestCase
     /**
      * @dataProvider requestsAndExpectedResponsesProvider
      */
-    public function testBatchRequestEntitiesProperlyGetConvertedToAnArray($request, $expectedArray)
+    public function testBatchRequestEntitiesProperlyGetConvertedToAnArray(FacebookRequest $request, array $expectedArray)
     {
         $batchRequest = $this->createBatchRequest();
         $batchRequest->add($request, 'foo_name');
@@ -205,7 +197,7 @@ class FacebookBatchRequestTest extends BaseTestCase
         $this->assertEquals($expectedArray, $batchRequestArray);
     }
 
-    public function requestsAndExpectedResponsesProvider()
+    public function requestsAndExpectedResponsesProvider(): array
     {
         $headers = $this->defaultHeaders();
         $apiVersion = Facebook::DEFAULT_GRAPH_VERSION;
@@ -369,7 +361,7 @@ class FacebookBatchRequestTest extends BaseTestCase
         $this->assertEquals($expectedBatchParams, $params);
     }
 
-    private function assertRequestContainsAppAndToken(FacebookRequest $request, FacebookApp $expectedApp, $expectedToken)
+    private function assertRequestContainsAppAndToken(FacebookRequest $request, FacebookApp $expectedApp, string $expectedToken): void
     {
         $app = $request->getApp();
         $token = $request->getAccessToken();
@@ -378,7 +370,7 @@ class FacebookBatchRequestTest extends BaseTestCase
         $this->assertEquals($expectedToken, $token);
     }
 
-    private function defaultHeaders()
+    private function defaultHeaders(): array
     {
         $headers = [];
         foreach (FacebookRequest::getDefaultHeaders() as $name => $value) {
@@ -388,19 +380,19 @@ class FacebookBatchRequestTest extends BaseTestCase
         return $headers;
     }
 
-    private function createAndAppendRequestsTo(FacebookBatchRequest $batchRequest, $number)
+    private function createAndAppendRequestsTo(FacebookBatchRequest $batchRequest, int $number): void
     {
         for ($i = 0; $i < $number; $i++) {
             $batchRequest->add(new FacebookRequest());
         }
     }
 
-    private function createBatchRequest()
+    private function createBatchRequest(): FacebookBatchRequest
     {
         return new FacebookBatchRequest($this->app, [], 'foo_token');
     }
 
-    private function createBatchRequestWithRequests(array $requests)
+    private function createBatchRequestWithRequests(array $requests): FacebookBatchRequest
     {
         $batchRequest = $this->createBatchRequest();
         $batchRequest->add($requests);
@@ -408,7 +400,7 @@ class FacebookBatchRequestTest extends BaseTestCase
         return $batchRequest;
     }
 
-    private function assertRequestsMatch($requests, $formattedRequests)
+    private function assertRequestsMatch(array $requests, array $formattedRequests): void
     {
         $expectedRequests = [];
         foreach ($requests as $name => $request) {

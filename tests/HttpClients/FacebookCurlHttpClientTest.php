@@ -23,20 +23,22 @@
  */
 namespace Facebook\Tests\HttpClients;
 
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\HttpClients\FacebookCurl;
 use Mockery as m;
 use Facebook\HttpClients\FacebookCurlHttpClient;
 
 class FacebookCurlHttpClientTest extends AbstractTestHttpClient
 {
     /**
-     * @var \Facebook\HttpClients\FacebookCurl
+     * @var FacebookCurl
      */
-    protected $curlMock;
+    protected FacebookCurl $curlMock;
 
     /**
      * @var FacebookCurlHttpClient
      */
-    protected $curlClient;
+    protected FacebookCurlHttpClient $curlClient;
 
     const CURL_VERSION_STABLE = 0x072400;
     const CURL_VERSION_BUGGY = 0x071400;
@@ -244,9 +246,8 @@ class FacebookCurlHttpClientTest extends AbstractTestHttpClient
             ->once()
             ->andReturn(null);
 
-        $response = $this->curlClient->send('http://foo.com/', 'GET', '', [], 60);
+        $response = $this->curlClient->send('http://foo.com/', 'GET', null, [], 60);
 
-        $this->assertInstanceOf('Facebook\Http\GraphRawResponse', $response);
         $this->assertEquals($this->fakeRawBody, $response->getBody());
         $this->assertEquals($this->fakeHeadersAsArray, $response->getHeaders());
         $this->assertEquals(200, $response->getHttpResponseCode());
@@ -254,7 +255,7 @@ class FacebookCurlHttpClientTest extends AbstractTestHttpClient
 
     public function testThrowsExceptionOnClientError(): void
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $this->curlMock
             ->shouldReceive('init')
             ->once()
@@ -276,6 +277,6 @@ class FacebookCurlHttpClientTest extends AbstractTestHttpClient
             ->once()
             ->andReturn('Foo error');
 
-        $this->curlClient->send('http://foo.com/', 'GET', '', [], 60);
+        $this->curlClient->send('http://foo.com/', 'GET', null, [], 60);
     }
 }

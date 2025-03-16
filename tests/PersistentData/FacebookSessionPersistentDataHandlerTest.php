@@ -23,6 +23,7 @@
  */
 namespace Facebook\Tests\PersistentData;
 
+use Facebook\Exceptions\FacebookSDKException;
 use Facebook\PersistentData\FacebookSessionPersistentDataHandler;
 use Facebook\Tests\BaseTestCase;
 
@@ -30,13 +31,13 @@ class FacebookSessionPersistentDataHandlerTest extends BaseTestCase
 {
     public function testInactiveSessionsWillThrow()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         new FacebookSessionPersistentDataHandler();
     }
 
     public function testCanSetAValue()
     {
-        $handler = new FacebookSessionPersistentDataHandler($enableSessionCheck = false);
+        $handler = new FacebookSessionPersistentDataHandler(false);
         $handler->set('foo', 'bar');
 
         $this->assertEquals('bar', $_SESSION['FBRLH_foo']);
@@ -45,7 +46,7 @@ class FacebookSessionPersistentDataHandlerTest extends BaseTestCase
     public function testCanGetAValue()
     {
         $_SESSION['FBRLH_faz'] = 'baz';
-        $handler = new FacebookSessionPersistentDataHandler($enableSessionCheck = false);
+        $handler = new FacebookSessionPersistentDataHandler(false);
         $value = $handler->get('faz');
 
         $this->assertEquals('baz', $value);
@@ -53,7 +54,7 @@ class FacebookSessionPersistentDataHandlerTest extends BaseTestCase
 
     public function testGettingAValueThatDoesntExistWillReturnNull()
     {
-        $handler = new FacebookSessionPersistentDataHandler($enableSessionCheck = false);
+        $handler = new FacebookSessionPersistentDataHandler(false);
         $value = $handler->get('does_not_exist');
 
         $this->assertNull($value);

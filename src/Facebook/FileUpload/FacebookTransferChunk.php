@@ -23,6 +23,8 @@
  */
 namespace Facebook\FileUpload;
 
+use Facebook\Exceptions\FacebookSDKException;
+
 /**
  * Class FacebookTransferChunk
  *
@@ -33,36 +35,29 @@ class FacebookTransferChunk
     /**
      * @var FacebookFile The file to chunk during upload.
      */
-    private $file;
+    private FacebookFile $file;
 
     /**
      * @var int The ID of the upload session.
      */
-    private $uploadSessionId;
+    private int $uploadSessionId;
 
     /**
      * @var int Start byte position of the next file chunk.
      */
-    private $startOffset;
+    private int $startOffset;
 
     /**
      * @var int End byte position of the next file chunk.
      */
-    private $endOffset;
+    private int $endOffset;
 
     /**
      * @var int The ID of the video.
      */
-    private $videoId;
+    private int $videoId;
 
-    /**
-     * @param FacebookFile $file
-     * @param int $uploadSessionId
-     * @param int $videoId
-     * @param int $startOffset
-     * @param int $endOffset
-     */
-    public function __construct(FacebookFile $file, $uploadSessionId, $videoId, $startOffset, $endOffset)
+    public function __construct(FacebookFile $file, int $uploadSessionId, int $videoId, int $startOffset, int $endOffset)
     {
         $this->file = $file;
         $this->uploadSessionId = $uploadSessionId;
@@ -76,65 +71,43 @@ class FacebookTransferChunk
      *
      * @return FacebookFile
      */
-    public function getFile()
+    public function getFile(): FacebookFile
     {
         return $this->file;
     }
 
     /**
      * Return a FacebookFile entity with partial content.
-     *
-     * @return FacebookFile
+     * @throws FacebookSDKException
      */
-    public function getPartialFile()
+    public function getPartialFile(): FacebookFile
     {
         $maxLength = $this->endOffset - $this->startOffset;
 
         return new FacebookFile($this->file->getFilePath(), $maxLength, $this->startOffset);
     }
 
-    /**
-     * Return upload session Id
-     *
-     * @return int
-     */
-    public function getUploadSessionId()
+    public function getUploadSessionId(): int
     {
         return $this->uploadSessionId;
     }
 
-    /**
-     * Check whether is the last chunk
-     *
-     * @return bool
-     */
-    public function isLastChunk()
+    public function isLastChunk(): bool
     {
         return $this->startOffset === $this->endOffset;
     }
 
-    /**
-     * @return int
-     */
-    public function getStartOffset()
+    public function getStartOffset(): int
     {
         return $this->startOffset;
     }
 
-    /**
-     * @return int
-     */
-    public function getEndOffset()
+    public function getEndOffset(): int
     {
         return $this->endOffset;
     }
 
-    /**
-     * Get uploaded video Id
-     *
-     * @return int
-     */
-    public function getVideoId()
+    public function getVideoId(): int
     {
         return $this->videoId;
     }

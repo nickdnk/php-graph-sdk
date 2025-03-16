@@ -33,30 +33,29 @@ class GraphRawResponse
     /**
      * @var array The response headers in the form of an associative array.
      */
-    protected $headers;
+    protected array $headers;
 
     /**
-     * @var string The raw response body.
+     * @var string|null The raw response body.
      */
-    protected $body;
+    protected ?string $body;
 
     /**
-     * @var int The HTTP status response code.
+     * @var int|null The HTTP status response code.
      */
-    protected $httpResponseCode;
+    protected ?int $httpResponseCode;
 
     /**
      * Creates a new GraphRawResponse entity.
      *
-     * @param string|array $headers        The headers as a raw string or array.
-     * @param string       $body           The raw response body.
-     * @param int          $httpStatusCode The HTTP response code (if sending headers as parsed array).
+     * @param string|array $headers The headers as a raw string or array.
+     * @param string|null $body The raw response body.
+     * @param int|null $httpStatusCode The HTTP response code (if sending headers as parsed array).
      */
-    public function __construct($headers, $body, $httpStatusCode = null)
+    public function __construct(array|string $headers, ?string $body, ?int $httpStatusCode = null)
     {
-        if (is_numeric($httpStatusCode)) {
-            $this->httpResponseCode = (int)$httpStatusCode;
-        }
+
+        $this->httpResponseCode = $httpStatusCode;
 
         if (is_array($headers)) {
             $this->headers = $headers;
@@ -72,41 +71,35 @@ class GraphRawResponse
      *
      * @return array
      */
-    public function getHeaders()
+    public function getHeaders(): array
     {
         return $this->headers;
     }
 
     /**
      * Return the body of the response.
-     *
-     * @return string
      */
-    public function getBody()
+    public function getBody(): ?string
     {
         return $this->body;
     }
 
     /**
      * Return the HTTP response code.
-     *
-     * @return int
      */
-    public function getHttpResponseCode()
+    public function getHttpResponseCode(): ?int
     {
         return $this->httpResponseCode;
     }
 
     /**
      * Sets the HTTP response code from a raw header.
-     *
-     * @param string $rawResponseHeader
      */
-    public function setHttpResponseCodeFromHeader($rawResponseHeader)
+    public function setHttpResponseCodeFromHeader(string $rawResponseHeader): void
     {
         // https://tools.ietf.org/html/rfc7230#section-3.1.2
         list($version, $status, $reason) = array_pad(explode(' ', $rawResponseHeader, 3), 3, null);
-        $this->httpResponseCode = (int) $status;
+        $this->httpResponseCode = (int)$status;
     }
 
     /**
@@ -114,7 +107,7 @@ class GraphRawResponse
      *
      * @param string $rawHeaders The raw headers from the response.
      */
-    protected function setHeadersFromString($rawHeaders)
+    protected function setHeadersFromString(string $rawHeaders): void
     {
         // Normalize line breaks
         $rawHeaders = str_replace("\r\n", "\n", $rawHeaders);
@@ -127,7 +120,7 @@ class GraphRawResponse
 
         $headerComponents = explode("\n", $rawHeader);
         foreach ($headerComponents as $line) {
-            if (strpos($line, ': ') === false) {
+            if (!str_contains($line, ': ')) {
                 $this->setHttpResponseCodeFromHeader($line);
             } else {
                 list($key, $value) = explode(': ', $line, 2);

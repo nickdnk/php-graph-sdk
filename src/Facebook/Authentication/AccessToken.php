@@ -23,6 +23,8 @@
  */
 namespace Facebook\Authentication;
 
+use DateTime;
+
 /**
  * Class AccessToken
  *
@@ -35,22 +37,19 @@ class AccessToken
      *
      * @var string
      */
-    protected $value = '';
+    protected string $value = '';
 
     /**
      * Date when token expires.
      *
-     * @var \DateTime|null
+     * @var DateTime|null
      */
-    protected $expiresAt;
+    protected ?DateTime $expiresAt = null;
 
     /**
      * Create a new access token entity.
-     *
-     * @param string $accessToken
-     * @param int    $expiresAt
      */
-    public function __construct($accessToken, $expiresAt = 0)
+    public function __construct(string $accessToken, int $expiresAt = 0)
     {
         $this->value = $accessToken;
         if ($expiresAt) {
@@ -65,7 +64,7 @@ class AccessToken
      *
      * @return string
      */
-    public function getAppSecretProof($appSecret)
+    public function getAppSecretProof(string $appSecret): string
     {
         return hash_hmac('sha256', $this->value, $appSecret);
     }
@@ -73,21 +72,19 @@ class AccessToken
     /**
      * Getter for expiresAt.
      *
-     * @return \DateTime|null
+     * @return DateTime|null
      */
-    public function getExpiresAt()
+    public function getExpiresAt(): ?DateTime
     {
         return $this->expiresAt;
     }
 
     /**
      * Determines whether or not this is an app access token.
-     *
-     * @return bool
      */
-    public function isAppAccessToken()
+    public function isAppAccessToken(): bool
     {
-        return strpos($this->value, '|') !== false;
+        return str_contains($this->value, '|');
     }
 
     /**
@@ -95,43 +92,33 @@ class AccessToken
      *
      * @return bool
      */
-    public function isLongLived()
+    public function isLongLived(): bool
     {
         if ($this->expiresAt) {
             return $this->expiresAt->getTimestamp() > time() + (60 * 60 * 2);
         }
 
-        if ($this->isAppAccessToken()) {
-            return true;
-        }
+        return $this->isAppAccessToken();
 
-        return false;
     }
 
     /**
      * Checks the expiration of the access token.
-     *
-     * @return boolean|null
      */
-    public function isExpired()
+    public function isExpired(): bool
     {
-        if ($this->getExpiresAt() instanceof \DateTime) {
+        if ($this->getExpiresAt() instanceof DateTime) {
             return $this->getExpiresAt()->getTimestamp() < time();
         }
 
-        if ($this->isAppAccessToken()) {
-            return false;
-        }
+        return false;
 
-        return null;
     }
 
     /**
      * Returns the access token as a string.
-     *
-     * @return string
      */
-    public function getValue()
+    public function getValue(): string
     {
         return $this->value;
     }
@@ -146,14 +133,9 @@ class AccessToken
         return $this->getValue();
     }
 
-    /**
-     * Setter for expires_at.
-     *
-     * @param int $timeStamp
-     */
-    protected function setExpiresAtFromTimeStamp($timeStamp)
+    protected function setExpiresAtFromTimeStamp(int $timeStamp): void
     {
-        $dt = new \DateTime();
+        $dt = new DateTime();
         $dt->setTimestamp($timeStamp);
         $this->expiresAt = $dt;
     }

@@ -25,47 +25,41 @@ namespace Facebook\Tests\HttpClients;
 
 use Facebook\HttpClients\FacebookCurlHttpClient;
 use Facebook\HttpClients\FacebookGuzzleHttpClient;
+use Facebook\HttpClients\FacebookHttpClientInterface;
 use Facebook\HttpClients\FacebookStreamHttpClient;
 use Facebook\HttpClients\HttpClientsFactory;
 use Facebook\Tests\BaseTestCase;
 use GuzzleHttp\Client;
-use PHPUnit_Framework_TestCase;
 
 class HttpClientsFactoryTest extends BaseTestCase
 {
-    const COMMON_NAMESPACE = 'Facebook\HttpClients\\';
-    const COMMON_INTERFACE = 'Facebook\HttpClients\FacebookHttpClientInterface';
-
     /**
-     * @param mixed  $handler
-     * @param string $expected
-     *
      * @dataProvider httpClientsProvider
      */
-    public function testCreateHttpClient($handler, $expected)
+    public function testCreateHttpClient(mixed $handler, string $expected)
     {
         $httpClient = HttpClientsFactory::createHttpClient($handler);
 
-        $this->assertInstanceOf(self::COMMON_INTERFACE, $httpClient);
+        $this->assertInstanceOf(FacebookHttpClientInterface::class, $httpClient);
         $this->assertInstanceOf($expected, $httpClient);
     }
 
     /**
      * @return array
      */
-    public function httpClientsProvider()
+    public function httpClientsProvider(): array
     {
         $clients = [
-          ['guzzle', self::COMMON_NAMESPACE . 'FacebookGuzzleHttpClient'],
-          ['stream', self::COMMON_NAMESPACE . 'FacebookStreamHttpClient'],
-          [new Client(), self::COMMON_NAMESPACE . 'FacebookGuzzleHttpClient'],
-          [new FacebookGuzzleHttpClient(), self::COMMON_NAMESPACE . 'FacebookGuzzleHttpClient'],
-          [new FacebookStreamHttpClient(), self::COMMON_NAMESPACE . 'FacebookStreamHttpClient'],
-          [null, self::COMMON_INTERFACE],
+          ['guzzle', FacebookGuzzleHttpClient::class],
+          ['stream', FacebookStreamHttpClient::class],
+          [new Client(), FacebookGuzzleHttpClient::class],
+          [new FacebookGuzzleHttpClient(), FacebookGuzzleHttpClient::class],
+          [new FacebookStreamHttpClient(), FacebookStreamHttpClient::class],
+          [null, FacebookHttpClientInterface::class],
         ];
         if (extension_loaded('curl')) {
-            $clients[] = ['curl', self::COMMON_NAMESPACE . 'FacebookCurlHttpClient'];
-            $clients[] = [new FacebookCurlHttpClient(), self::COMMON_NAMESPACE . 'FacebookCurlHttpClient'];
+            $clients[] = ['curl', FacebookCurlHttpClient::class];
+            $clients[] = [new FacebookCurlHttpClient(), FacebookCurlHttpClient::class];
         }
 
         return $clients;

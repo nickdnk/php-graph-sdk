@@ -21,152 +21,224 @@
  * DEALINGS IN THE SOFTWARE.
  *
  */
+
 namespace Facebook\GraphNodes;
 
 /**
  * Class GraphUser
  *
  * @package Facebook
+ * @link https://developers.facebook.com/docs/graph-api/reference/user/
  */
 class GraphUser extends GraphNode
 {
-    /**
-     * @var array Maps object key names to Graph object types.
-     */
-    protected static $graphObjectMap = [
-        'hometown' => '\Facebook\GraphNodes\GraphPage',
-        'location' => '\Facebook\GraphNodes\GraphPage',
-        'significant_other' => '\Facebook\GraphNodes\GraphUser',
-        'picture' => '\Facebook\GraphNodes\GraphPicture',
+
+    protected static array $graphObjectMap = [
+        'age_range'            => GraphAgeRange::class,
+        'hometown'             => GraphPage::class,
+        'location'             => GraphPage::class,
+        'picture'              => GraphPicture::class,
+        'significant_other'    => GraphUser::class,
+        'sports'               => GraphExperience::class,
+        'favorite_teams'       => GraphExperience::class,
+        'favorite_athletes'    => GraphExperience::class,
+        'languages'            => GraphExperience::class,
+        'inspirational_people' => GraphExperience::class,
+        'video_upload_limits'  => GraphVideoUploadLimits::class,
+        'permissions'          => GraphPermission::class,
+        'payment_pricepoints'  => GraphPaymentPricePoints::class,
+        'albums'               => GraphAlbum::class
     ];
 
-    /**
-     * Returns the ID for the user as a string if present.
-     *
-     * @return string|null
-     */
-    public function getId()
+    public function getId(): ?string
     {
         return $this->getField('id');
     }
 
-    /**
-     * Returns the name for the user as a string if present.
-     *
-     * @return string|null
-     */
-    public function getName()
+    public function getName(): ?string
     {
         return $this->getField('name');
     }
 
+    public function getProfilePicture(): ?string
+    {
+        return $this->getField('profile_pic');
+    }
+
+    public function getClientBusinessId(): ?string
+    {
+        return $this->getField('client_business_id');
+    }
+
+    public function getTokenForBusiness(): ?string
+    {
+        return $this->getField('token_for_business');
+    }
+
+    public function getIdForAvatars(): ?string
+    {
+        return $this->getField('id_for_avatars');
+    }
+
     /**
-     * Returns the first name for the user as a string if present.
-     *
-     * @return string|null
+     * @return ?GraphExperience[]
      */
-    public function getFirstName()
+    public function getFavoriteAthletes(): ?array
+    {
+        return $this->getField('favorite_athletes');
+    }
+
+    /**
+     * @return ?GraphExperience[]
+     */
+    public function getFavoriteTeams(): ?array
+    {
+        return $this->getField('favorite_teams');
+    }
+
+    /**
+     * @return ?GraphExperience[]
+     */
+    public function getLanguages(): ?array
+    {
+        return $this->getField('languages');
+    }
+
+    /**
+     * @return ?GraphExperience[]
+     */
+    public function getInspirationalPeople(): ?array
+    {
+        return $this->getField('inspirational_people');
+    }
+
+    public function getAbout(): ?string
+    {
+        return $this->getField('about');
+    }
+
+    public function getNameFormat(): ?string
+    {
+        return $this->getField('name_format');
+    }
+
+    public function getShortName(): ?string
+    {
+        return $this->getField('short_name');
+    }
+
+    public function getFirstName(): ?string
     {
         return $this->getField('first_name');
     }
 
-    /**
-     * Returns the middle name for the user as a string if present.
-     *
-     * @return string|null
-     */
-    public function getMiddleName()
+    public function getMiddleName(): ?string
     {
         return $this->getField('middle_name');
     }
 
-    /**
-     * Returns the last name for the user as a string if present.
-     *
-     * @return string|null
-     */
-    public function getLastName()
+    public function getLastName(): ?string
     {
         return $this->getField('last_name');
     }
 
-    /**
-     * Returns the email for the user as a string if present.
-     *
-     * @return string|null
-     */
-    public function getEmail()
+    public function getEmail(): ?string
     {
         return $this->getField('email');
     }
 
-    /**
-     * Returns the gender for the user as a string if present.
-     *
-     * @return string|null
-     */
-    public function getGender()
+    public function getGender(): ?string
     {
         return $this->getField('gender');
     }
 
-    /**
-     * Returns the Facebook URL for the user as a string if available.
-     *
-     * @return string|null
-     */
-    public function getLink()
+    public function getLink(): ?string
     {
         return $this->getField('link');
     }
 
-    /**
-     * Returns the users birthday, if available.
-     *
-     * @return Birthday|null
-     */
-    public function getBirthday()
+    public function getBirthday(): ?Birthday
     {
         return $this->getField('birthday');
     }
 
-    /**
-     * Returns the current location of the user as a GraphPage.
-     *
-     * @return GraphPage|null
-     */
-    public function getLocation()
+    public function getLocation(): ?GraphPage
     {
         return $this->getField('location');
     }
 
     /**
      * Returns the current location of the user as a GraphPage.
-     *
-     * @return GraphPage|null
      */
-    public function getHometown()
+    public function getHometown(): ?GraphPage
     {
         return $this->getField('hometown');
     }
 
     /**
      * Returns the current location of the user as a GraphUser.
-     *
-     * @return GraphUser|null
      */
-    public function getSignificantOther()
+    public function getSignificantOther(): ?GraphUser
     {
         return $this->getField('significant_other');
     }
 
     /**
      * Returns the picture of the user as a GraphPicture
-     *
-     * @return GraphPicture|null
      */
-    public function getPicture()
+    public function getPicture(): ?GraphPicture
     {
         return $this->getField('picture');
+    }
+
+    public function supportsDonateButtonInLiveVideos(): bool
+    {
+        return (bool)$this->getField('supports_donate_button_in_live_video');
+    }
+
+    public function getAgeRange(): ?GraphAgeRange
+    {
+        return $this->getField('age_range');
+    }
+
+    public function isInstalled(): bool
+    {
+        return (bool)$this->getField('installed');
+    }
+
+    /**
+     * @return ?string[]
+     */
+    public function getMeetingFor(): ?array
+    {
+        return $this->getField('meeting_for');
+    }
+
+    /**
+     * @return ?GraphExperience[]
+     */
+    public function getSports(): ?array
+    {
+        return $this->getField('sports');
+    }
+
+    public function getVideoUploadLimits(): ?GraphVideoUploadLimits
+    {
+        return $this->getField('video_upload_limits');
+    }
+
+    public function getPermissions(): ?GraphEdge
+    {
+        return $this->getField('permissions');
+    }
+
+    public function getAlbums(): ?GraphEdge
+    {
+        return $this->getField('albums');
+    }
+
+    public function getPaymentPricePoints(): ?GraphPaymentPricePoints
+    {
+        return $this->getField('payment_pricepoints');
     }
 }

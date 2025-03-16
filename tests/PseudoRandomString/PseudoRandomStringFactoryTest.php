@@ -23,14 +23,15 @@
  */
 namespace Facebook\Tests\PseudoRandomString;
 
+use Facebook\PseudoRandomString\OpenSslPseudoRandomStringGenerator;
 use Facebook\PseudoRandomString\PseudoRandomStringGeneratorFactory;
+use Facebook\PseudoRandomString\PseudoRandomStringGeneratorInterface;
+use Facebook\PseudoRandomString\RandomBytesPseudoRandomStringGenerator;
+use Facebook\PseudoRandomString\UrandomPseudoRandomStringGenerator;
 use Facebook\Tests\BaseTestCase;
-use PHPUnit_Framework_TestCase;
 
 class PseudoRandomStringFactoryTest extends BaseTestCase
 {
-    const COMMON_NAMESPACE = 'Facebook\PseudoRandomString\\';
-    const COMMON_INTERFACE = 'Facebook\PseudoRandomString\PseudoRandomStringGeneratorInterface';
 
     /**
      * @param mixed  $handler
@@ -38,33 +39,30 @@ class PseudoRandomStringFactoryTest extends BaseTestCase
      *
      * @dataProvider csprngProvider
      */
-    public function testCsprng($handler, $expected)
+    public function testCsprng(mixed $handler, string $expected)
     {
         $pseudoRandomStringGenerator = PseudoRandomStringGeneratorFactory::createPseudoRandomStringGenerator($handler);
 
-        $this->assertInstanceOf(self::COMMON_INTERFACE, $pseudoRandomStringGenerator);
+        $this->assertInstanceOf(PseudoRandomStringGeneratorInterface::class, $pseudoRandomStringGenerator);
         $this->assertInstanceOf($expected, $pseudoRandomStringGenerator);
     }
 
     /**
      * @return array
      */
-    public function csprngProvider()
+    public function csprngProvider(): array
     {
         $providers = [
-          [null, self::COMMON_INTERFACE],
+          [null, PseudoRandomStringGeneratorInterface::class],
         ];
         if (function_exists('random_bytes')) {
-            $providers[] = ['random_bytes', self::COMMON_NAMESPACE . 'RandomBytesPseudoRandomStringGenerator'];
-        }
-        if (function_exists('mcrypt_create_iv')) {
-            $providers[] = ['mcrypt', self::COMMON_NAMESPACE . 'McryptPseudoRandomStringGenerator'];
+            $providers[] = ['random_bytes', RandomBytesPseudoRandomStringGenerator::class];
         }
         if (function_exists('openssl_random_pseudo_bytes')) {
-            $providers[] = ['openssl', self::COMMON_NAMESPACE . 'OpenSslPseudoRandomStringGenerator'];
+            $providers[] = ['openssl', OpenSslPseudoRandomStringGenerator::class];
         }
         if (!ini_get('open_basedir') && is_readable('/dev/urandom')) {
-            $providers[] = ['urandom', self::COMMON_NAMESPACE . 'UrandomPseudoRandomStringGenerator'];
+            $providers[] = ['urandom', UrandomPseudoRandomStringGenerator::class];
         }
 
         return $providers;

@@ -23,20 +23,17 @@
  */
 namespace Facebook\Tests\HttpClients;
 
+use Facebook\Exceptions\FacebookSDKException;
+use Facebook\Http\GraphRawResponse;
+use Facebook\HttpClients\FacebookStream;
 use Mockery as m;
 use Facebook\HttpClients\FacebookStreamHttpClient;
 
 class FacebookStreamHttpClientTest extends AbstractTestHttpClient
 {
-    /**
-     * @var \Facebook\HttpClients\FacebookStream
-     */
-    protected $streamMock;
 
-    /**
-     * @var FacebookStreamHttpClient
-     */
-    protected $streamClient;
+    protected FacebookStream $streamMock;
+    protected FacebookStreamHttpClient $streamClient;
 
     protected function setUp(): void
     {
@@ -104,7 +101,7 @@ class FacebookStreamHttpClientTest extends AbstractTestHttpClient
 
         $response = $this->streamClient->send('http://foo.com/', 'GET', 'foo_body', ['X-foo' => 'bar'], 123);
 
-        $this->assertInstanceOf('Facebook\Http\GraphRawResponse', $response);
+        $this->assertInstanceOf(GraphRawResponse::class, $response);
         $this->assertEquals($this->fakeRawBody, $response->getBody());
         $this->assertEquals($this->fakeHeadersAsArray, $response->getHeaders());
         $this->assertEquals(200, $response->getHttpResponseCode());
@@ -112,7 +109,7 @@ class FacebookStreamHttpClientTest extends AbstractTestHttpClient
 
     public function testThrowsExceptionOnClientError()
     {
-        $this->expectException(\Facebook\Exceptions\FacebookSDKException::class);
+        $this->expectException(FacebookSDKException::class);
         $this->streamMock
             ->shouldReceive('streamContextCreate')
             ->once()

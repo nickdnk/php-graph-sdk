@@ -60,7 +60,7 @@ class RequestBodyMultipartTest extends BaseTestCase
         $expectedBody .= "Content-Disposition: form-data; name=\"foo\"\r\n\r\nbar\r\n";
         $expectedBody .= "--foo_boundary\r\n";
         $expectedBody .= "Content-Disposition: form-data; name=\"foo_file\"; filename=\"foo.txt\"\r\n";
-        $expectedBody .= "Content-Type: text/plain\r\n\r\nThis is a text file used for testing. Let's dance.\r\n";
+        $expectedBody .= "Content-Type: text/plain\r\n\r\nThis is a text file used for testing.\r\n";
         $expectedBody .= "--foo_boundary--\r\n";
 
         $this->assertEquals($expectedBody, $body);
