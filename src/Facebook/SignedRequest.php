@@ -54,6 +54,7 @@ class SignedRequest
      *
      * @param FacebookApp $facebookApp The FacebookApp entity.
      * @param string|null $rawSignedRequest The raw signed request.
+     * @throws FacebookSDKException
      */
     public function __construct(FacebookApp $facebookApp, ?string $rawSignedRequest = null)
     {
@@ -115,6 +116,7 @@ class SignedRequest
 
     /**
      * Creates a signed request from an array of data.
+     * @throws FacebookSDKException
      */
     public function make(array $payload): string
     {
@@ -131,6 +133,7 @@ class SignedRequest
     /**
      * Validates and decodes a signed request and saves
      * the payload to an array.
+     * @throws FacebookSDKException
      */
     protected function parse(): void
     {

@@ -56,9 +56,10 @@ abstract class FacebookSignedRequestFromInputHelper
     /**
      * Initialize the helper and process available signed request data.
      *
-     * @param FacebookApp    $app          The FacebookApp entity.
-     * @param FacebookClient $client       The client to make HTTP requests.
-     * @param string|null    $graphVersion The version of Graph to use.
+     * @param FacebookApp $app The FacebookApp entity.
+     * @param FacebookClient $client The client to make HTTP requests.
+     * @param string|null $graphVersion The version of Graph to use.
+     * @throws FacebookSDKException
      */
     public function __construct(FacebookApp $app, FacebookClient $client, ?string $graphVersion = null)
     {
@@ -71,6 +72,7 @@ abstract class FacebookSignedRequestFromInputHelper
 
     /**
      * Instantiates a new SignedRequest entity.
+     * @throws FacebookSDKException
      */
     public function instantiateSignedRequest(?string $rawSignedRequest = null): void
     {

@@ -24,8 +24,6 @@
 
 namespace Facebook\GraphNodes;
 
-use Facebook\FileUpload\FacebookVideo;
-
 /**
  * Class GraphPage
  *

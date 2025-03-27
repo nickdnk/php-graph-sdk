@@ -98,7 +98,7 @@ class GraphRawResponse
     public function setHttpResponseCodeFromHeader(string $rawResponseHeader): void
     {
         // https://tools.ietf.org/html/rfc7230#section-3.1.2
-        list($version, $status, $reason) = array_pad(explode(' ', $rawResponseHeader, 3), 3, null);
+        list(,$status) = array_pad(explode(' ', $rawResponseHeader, 3), 3, null);
         $this->httpResponseCode = (int)$status;
     }
 

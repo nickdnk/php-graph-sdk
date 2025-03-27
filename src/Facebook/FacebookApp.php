@@ -92,6 +92,7 @@ class FacebookApp implements \Serializable
 
     /**
      * Unserializes a string as a FacebookApp entity.
+     * @throws FacebookSDKException
      */
     public function unserialize(string $serialized): void
     {
