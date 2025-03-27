@@ -15,11 +15,15 @@
         - `GraphExperience`
         - `GraphInsightsRangeValue`
         - `GraphMailingAddress`
+        - `GraphPaymentPricePoint`
+        - `GraphPaymentPricePoints`
+        - `GraphPermission`
         - `GraphPhoto`
         - `GraphPlace`
         - `GraphPlatformImageSource`
         - `GraphVideo`
         - `GraphVideoFormat`
+        - `GraphVideoUploadLimits`
     - Removed integration tests as Facebook's API does not support it anymore anyway.
     - Deleted the entire `docs` folder as it's too much work to maintain and was full of outdated examples. For
       documentation, see https://developers.facebook.com/docs/graph-api.
@@ -75,15 +79,15 @@
     - `GraphAchievement`:
         - Removed entirely. See https://developers.facebook.com/docs/graph-api/reference/user/achievements.
     - `FacebookResponse`:
-        - Removed these type-casting methods. Use `getGraphNode(<class>)` instead. This is similar to the changes made to
+        - Deprecated these type-casting methods. Use `getGraphNode(<class>)` instead. This is similar to the changes made to
           `GraphNodeFactory` for the same reason.
-            - `getGraphAchivement()`
             - `getGraphAlbum()`
             - `getGraphPage()`
             - `getGraphSessionInfo()`
             - `getGraphUser()`
             - `getGraphEvent()`
             - `getGraphGroup()`
+        - Removed `getGraphAchivement()`
 
 ## 7.x (UNOFFICIAL)
 

@@ -24,11 +24,17 @@
 
 namespace Facebook;
 
+use Facebook\GraphNodes\GraphAlbum;
 use Facebook\GraphNodes\GraphEdge;
+use Facebook\GraphNodes\GraphEvent;
+use Facebook\GraphNodes\GraphGroup;
 use Facebook\GraphNodes\GraphNode;
 use Facebook\GraphNodes\GraphNodeFactory;
 use Facebook\Exceptions\FacebookResponseException;
 use Facebook\Exceptions\FacebookSDKException;
+use Facebook\GraphNodes\GraphPage;
+use Facebook\GraphNodes\GraphSessionInfo;
+use Facebook\GraphNodes\GraphUser;
 
 /**
  * Class FacebookResponse
@@ -245,6 +251,90 @@ class FacebookResponse
         $factory = new GraphNodeFactory($this);
 
         return $factory->makeGraphNode($subclassName);
+    }
+
+    /**
+     * Convenience method for creating a GraphAlbum collection.
+     * @throws FacebookSDKException
+     * @deprecated Use getGraphNode(GraphAlbum::class).
+     */
+    public function getGraphAlbum(): GraphAlbum
+    {
+        $factory = new GraphNodeFactory($this);
+
+        /** @var GraphAlbum $album */
+        $album = $factory->makeGraphNode(GraphAlbum::class);
+        return $album;
+    }
+
+    /**
+     * Convenience method for creating a GraphPage collection.
+     * @throws FacebookSDKException
+     * @deprecated Use getGraphNode(GraphPage::class)).
+     */
+    public function getGraphPage(): GraphPage
+    {
+        $factory = new GraphNodeFactory($this);
+
+        /** @var GraphPage $page */
+        $page = $factory->makeGraphNode(GraphPage::class);
+        return $page;
+    }
+
+    /**
+     * Convenience method for creating a GraphSessionInfo collection.
+     * @throws FacebookSDKException
+     * @deprecated Use getGraphNode(GraphSessionInfo::class).
+     */
+    public function getGraphSessionInfo(): GraphSessionInfo
+    {
+        $factory = new GraphNodeFactory($this);
+
+        /** @var GraphSessionInfo $session */
+        $session = $factory->makeGraphNode(GraphSessionInfo::class);
+        return $session;
+    }
+
+    /**
+     * Convenience method for creating a GraphUser collection.
+     * @throws FacebookSDKException
+     * @deprecated Use getGraphNode(GraphUser::class).
+     */
+    public function getGraphUser(): GraphUser
+    {
+        $factory = new GraphNodeFactory($this);
+
+        /** @var GraphUser $user */
+        $user = $factory->makeGraphNode(GraphUser::class);
+        return $user;
+    }
+
+    /**
+     * Convenience method for creating a GraphEvent collection.
+     * @throws FacebookSDKException
+     * @deprecated Use getGraphNode(GraphEvent::class).
+     */
+    public function getGraphEvent(): GraphEvent
+    {
+        $factory = new GraphNodeFactory($this);
+
+        /** @var GraphEvent $event */
+        $event = $factory->makeGraphNode(GraphEvent::class);
+        return $event;
+    }
+
+    /**
+     * Convenience method for creating a GraphGroup collection.
+     * @throws FacebookSDKException
+     * @deprecated Use getGraphNode(GraphGroup::class).
+     */
+    public function getGraphGroup(): GraphGroup
+    {
+        $factory = new GraphNodeFactory($this);
+
+        /** @var GraphGroup $group */
+        $group = $factory->makeGraphNode(GraphGroup::class);
+        return $group;
     }
 
     /**
