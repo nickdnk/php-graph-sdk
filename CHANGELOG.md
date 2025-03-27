@@ -2,7 +2,7 @@
 
 ## 8.x (UNOFFICIAL)
 
-- 8.0.0-rc.1
+- 8.0.0-rc.2
     - Requires PHP 8.1.
     - Defaults to Facebook Graph v20.0, instead of v2.10 which is no longer accessible.
     - Added a few more objects/types. Please open a PR if you want to add more types.

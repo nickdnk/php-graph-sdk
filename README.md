@@ -54,8 +54,9 @@ try {
   // If you provided a 'default_access_token', the '{access-token}' is optional.
   $response = $fb->get('/me', '{access-token}');
   
-  // To decode the response to a PHP class, provide the class of the root node in the response. You will have to match
-  // this manually based on the endpoint you requested. Please do open a pull request if you want to add more types.
+  // To decode the response to a PHP class, provide the class of the root node in the
+  // response. You will have to match this manually based on the endpoint you
+  // requested. Please do open a pull request if you want to add more types.
   
   /** @var GraphUser $me */
   $me = $response->getGraphNode(GraphUser::class);
@@ -77,8 +78,8 @@ try {
 
 ## Tests
 
-1. [Composer](https://getcomposer.org/) is a prerequisite for running the tests. Install composer globally, then
-   run `composer install` to install required files.
+1. [Composer](https://getcomposer.org/) is a prerequisite for running the tests.
+   Install composer globally, then run `composer install` to install required files.
 2. The tests can be executed by running this command from the root directory:
 
 ```bash
@@ -87,4 +88,5 @@ $ ./vendor/bin/phpunit
 
 ## License
 
-Please see the [license file](https://github.com/facebook/php-graph-sdk/blob/master/LICENSE) for more information.
+Please see the [license file](https://github.com/facebook/php-graph-sdk/blob/master/LICENSE)
+for more information.
