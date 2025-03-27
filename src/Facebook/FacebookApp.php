@@ -94,9 +94,9 @@ class FacebookApp implements \Serializable
      * Unserializes a string as a FacebookApp entity.
      * @throws FacebookSDKException
      */
-    public function unserialize(string $serialized): void
+    public function unserialize(string $data): void
     {
-        list($id, $secret) = explode('|', $serialized);
+        list($id, $secret) = explode('|', $data);
 
         $this->__construct($id, $secret);
     }
