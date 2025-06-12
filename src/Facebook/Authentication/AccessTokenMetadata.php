@@ -309,7 +309,7 @@ class AccessTokenMetadata
     /**
      * Converts a unix timestamp into a DateTime entity.
      */
-    private function convertTimestampToDateTime(int $timestamp): DateTime
+    private function convertTimestampToDateTime(int|string $timestamp): DateTime
     {
         $dt = new DateTime();
         $dt->setTimestamp($timestamp);
@@ -323,8 +323,10 @@ class AccessTokenMetadata
     private function castTimestampsToDateTime(): void
     {
         foreach (static::$dateProperties as $key) {
-            if (isset($this->metadata[$key]) && $this->metadata[$key] !== 0) {
+            if (isset($this->metadata[$key]) && is_numeric($this->metadata[$key]) && $this->metadata[$key]) {
                 $this->metadata[$key] = $this->convertTimestampToDateTime($this->metadata[$key]);
+            } else {
+                $this->metadata[$key] = null;
             }
         }
     }

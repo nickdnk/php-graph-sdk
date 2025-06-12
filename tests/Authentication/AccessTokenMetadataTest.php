@@ -65,6 +65,37 @@ class AccessTokenMetadataTest extends BaseTestCase
         $this->assertInstanceOf(DateTime::class, $issuedAt);
     }
 
+    public function testDatesGetCastToNullIfInvalid(): void
+    {
+        $data = $this->graphResponseData;
+        $data['data']['issued_at'] = '';
+        $data['data']['expires_at'] = 0;
+        $metadata = new AccessTokenMetadata($data);
+
+        $expires = $metadata->getExpiresAt();
+        $issuedAt = $metadata->getIssuedAt();
+
+        $this->assertNull($expires);
+        $this->assertNull($issuedAt);
+    }
+
+    public function testDatesWithStrings(): void
+    {
+        $data = $this->graphResponseData;
+        $data['data']['issued_at'] = '1422110200';
+        $data['data']['expires_at'] = '1422115200';
+        $metadata = new AccessTokenMetadata($data);
+
+        $expires = $metadata->getExpiresAt();
+        $issuedAt = $metadata->getIssuedAt();
+
+        $this->assertInstanceOf(DateTime::class, $expires);
+        $this->assertInstanceOf(DateTime::class, $issuedAt);
+
+        $this->assertEquals(1422115200, $expires->getTimestamp());
+        $this->assertEquals(1422110200, $issuedAt->getTimestamp());
+    }
+
     public function testAllTheGettersReturnTheProperValue(): void
     {
         $metadata = new AccessTokenMetadata($this->graphResponseData);
