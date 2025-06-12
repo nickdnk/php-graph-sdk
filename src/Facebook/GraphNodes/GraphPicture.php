@@ -33,9 +33,9 @@ class GraphPicture extends GraphNode
     /**
      * Returns true if user picture is silhouette.
      */
-    public function isSilhouette(): bool
+    public function isSilhouette(): ?bool
     {
-        return $this->getField('is_silhouette') ?? false;
+        return $this->getField('is_silhouette');
     }
 
     /**

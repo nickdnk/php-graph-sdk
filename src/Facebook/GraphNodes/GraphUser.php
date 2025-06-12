@@ -191,9 +191,9 @@ class GraphUser extends GraphNode
         return $this->getField('picture');
     }
 
-    public function supportsDonateButtonInLiveVideos(): bool
+    public function supportsDonateButtonInLiveVideos(): ?bool
     {
-        return (bool)$this->getField('supports_donate_button_in_live_video');
+        return $this->getField('supports_donate_button_in_live_video');
     }
 
     public function getAgeRange(): ?GraphAgeRange
@@ -201,9 +201,9 @@ class GraphUser extends GraphNode
         return $this->getField('age_range');
     }
 
-    public function isInstalled(): bool
+    public function isInstalled(): ?bool
     {
-        return (bool)$this->getField('installed');
+        return $this->getField('installed');
     }
 
     /**

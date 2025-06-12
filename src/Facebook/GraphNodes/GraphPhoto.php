@@ -43,19 +43,19 @@ class GraphPhoto extends GraphNode
         return $this->getField('backdated_time');
     }
 
-    public function canBackDate(): bool
+    public function canBackDate(): ?bool
     {
-        return (bool)$this->getField('can_backdate');
+        return $this->getField('can_backdate');
     }
 
-    public function canDelete(): bool
+    public function canDelete(): ?bool
     {
-        return (bool)$this->getField('can_delete');
+        return $this->getField('can_delete');
     }
 
-    public function canTag(): bool
+    public function canTag(): ?bool
     {
-        return (bool)$this->getField('can_tag');
+        return $this->getField('can_tag');
     }
 
     public function getCreatedTime(): ?DateTime

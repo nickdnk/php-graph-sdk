@@ -59,9 +59,9 @@ class GraphSessionInfo extends GraphNode
     /**
      * Returns whether the token is valid.
      */
-    public function getIsValid(): bool
+    public function getIsValid(): ?bool
     {
-        return $this->getField('is_valid') ?? false;
+        return $this->getField('is_valid');
     }
 
     /**

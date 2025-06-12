@@ -78,9 +78,9 @@ class GraphEvent extends GraphNode
     /**
      * Returns the `is_date_only` (Whether the event only has a date specified, but no time) as bool if present.
      */
-    public function getIsDateOnly(): bool
+    public function getIsDateOnly(): ?bool
     {
-        return $this->getField('is_date_only') ?? false;
+        return $this->getField('is_date_only');
     }
 
     /**

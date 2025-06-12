@@ -187,9 +187,9 @@ class AccessTokenMetadata
     /**
      * Whether the access token is still valid or not.
      */
-    public function getIsValid(): bool
+    public function getIsValid(): ?bool
     {
-        return $this->getField('is_valid') ?? false;
+        return $this->getField('is_valid');
     }
 
     /**

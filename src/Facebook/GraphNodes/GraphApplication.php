@@ -72,9 +72,9 @@ class GraphApplication extends GraphNode
         return $this->getField('app_events_config');
     }
 
-    public function isAppInstallTracked(): bool
+    public function isAppInstallTracked(): ?bool
     {
-        return (bool)$this->getField('app_install_tracked');
+        return $this->getField('app_install_tracked');
     }
 
     public function getAppName(): ?string
@@ -107,9 +107,9 @@ class GraphApplication extends GraphNode
         return $this->getField('auth_referral_default_activity_privacy');
     }
 
-    public function isAuthReferralEnabled(): bool
+    public function isAuthReferralEnabled(): ?bool
     {
-        return (bool)$this->getField('auth_referral_enabled');
+        return $this->getField('auth_referral_enabled');
     }
 
     /**
@@ -141,9 +141,9 @@ class GraphApplication extends GraphNode
         return $this->getField('auth_referral_user_perms');
     }
 
-    public function isCanvasFluidHeight(): bool
+    public function isCanvasFluidHeight(): ?bool
     {
-        return (bool)$this->getField('canvas_fluid_height');
+        return $this->getField('canvas_fluid_height');
     }
 
     public function getCanvasFluidWidth(): ?int
@@ -171,9 +171,9 @@ class GraphApplication extends GraphNode
         return $this->getField('company');
     }
 
-    public function isConfigurediOSSSO(): bool
+    public function isConfigurediOSSSO(): ?bool
     {
-        return (bool)$this->getField('configured_ios_sso');
+        return $this->getField('configured_ios_sso');
     }
 
     public function getContactEmail(): ?string
@@ -239,14 +239,14 @@ class GraphApplication extends GraphNode
         return $this->getField('ios_bundle_id');
     }
 
-    public function iOSSupportsNativeProxyAuthFlow(): bool
+    public function iOSSupportsNativeProxyAuthFlow(): ?bool
     {
-        return (bool)$this->getField('ios_supports_native_proxy_auth_flow');
+        return $this->getField('ios_supports_native_proxy_auth_flow');
     }
 
-    public function iOSSupportsSystemAuth(): bool
+    public function iOSSupportsSystemAuth(): ?bool
     {
-        return (bool)$this->getField('ios_supports_system_auth');
+        return $this->getField('ios_supports_system_auth');
     }
 
     public function getiPadAppStoreId(): ?string
@@ -375,9 +375,9 @@ class GraphApplication extends GraphNode
         return $this->getField('server_ip_whitelist');
     }
 
-    public function isSocialDiscovery(): bool
+    public function isSocialDiscovery(): ?bool
     {
-        return (bool)$this->getField('social_discovery');
+        return $this->getField('social_discovery');
     }
 
     public function getSubcategory(): ?string

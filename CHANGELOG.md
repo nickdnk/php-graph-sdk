@@ -35,7 +35,6 @@
         - `GraphList`
         - `GraphObject`
         - `GraphObjectFactory`
-    - Methods that return `bool|null` now always return `bool` and default to `false` instead.
     - `AccessTokenMetaData`:
         - Removed deprecated `getProperty()` function. Use `getField()`.
         - `getExpiresAt()` and `getIssuedAt()` now return `null` if the underlying data cannot be converted to a timestamp.

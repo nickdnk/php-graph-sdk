@@ -52,9 +52,9 @@ class GraphVideo extends GraphNode
         return $this->getField('embed_html');
     }
 
-    public function isEmbeddable(): bool
+    public function isEmbeddable(): ?bool
     {
-        return (bool)$this->getField('embeddable');
+        return $this->getField('embeddable');
     }
 
     public function getBackdatedTime(): ?DateTime
@@ -85,29 +85,29 @@ class GraphVideo extends GraphNode
         return $this->getField('icon');
     }
 
-    public function isCrossPostVideo(): bool
+    public function isCrossPostVideo(): ?bool
     {
-        return (bool)$this->getField('is_crosspost_video');
+        return $this->getField('is_crosspost_video');
     }
 
-    public function isCrossPostEligible(): bool
+    public function isCrossPostEligible(): ?bool
     {
-        return (bool)$this->getField('is_crossposting_eligible');
+        return $this->getField('is_crossposting_eligible');
     }
 
-    public function isEpisode(): bool
+    public function isEpisode(): ?bool
     {
-        return (bool)$this->getField('is_episode');
+        return $this->getField('is_episode');
     }
 
-    public function isInstagramEligible(): bool
+    public function isInstagramEligible(): ?bool
     {
-        return (bool)$this->getField('is_instagram_eligible');
+        return $this->getField('is_instagram_eligible');
     }
 
-    public function isReferenceOnly(): bool
+    public function isReferenceOnly(): ?bool
     {
-        return (bool)$this->getField('is_reference_only');
+        return $this->getField('is_reference_only');
     }
 
     public function permaLinkUrl(): ?string

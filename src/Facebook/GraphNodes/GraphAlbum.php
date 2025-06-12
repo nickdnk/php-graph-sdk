@@ -52,9 +52,9 @@ class GraphAlbum extends GraphNode
         return $this->getField('backdated_time');
     }
 
-    public function getCanUpload(): bool
+    public function getCanUpload(): ?bool
     {
-        return (bool)$this->getField('can_upload');
+        return $this->getField('can_upload');
     }
 
     public function getCount(): ?int
