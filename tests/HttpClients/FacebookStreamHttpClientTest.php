@@ -24,7 +24,6 @@
 namespace Facebook\Tests\HttpClients;
 
 use Facebook\Exceptions\FacebookSDKException;
-use Facebook\Http\GraphRawResponse;
 use Facebook\HttpClients\FacebookStream;
 use Mockery as m;
 use Facebook\HttpClients\FacebookStreamHttpClient;
@@ -57,7 +56,7 @@ class FacebookStreamHttpClientTest extends AbstractTestHttpClient
             ->shouldReceive('streamContextCreate')
             ->once()
             ->with(m::on(function ($arg) {
-                if (!isset($arg['http']) || !isset($arg['ssl'])) {
+                if (!isset($arg['http'])) {
                     return false;
                 }
 
@@ -69,20 +68,6 @@ class FacebookStreamHttpClientTest extends AbstractTestHttpClient
                         'ignore_errors' => true,
                     ]
                 ) {
-                    return false;
-                }
-
-                $caInfo = array_diff_assoc($arg['ssl'], [
-                    'verify_peer' => true,
-                    'verify_peer_name' => true,
-                    'allow_self_signed' => true,
-                ]);
-
-                if (count($caInfo) !== 1) {
-                    return false;
-                }
-
-                if (1 !== preg_match('/.+\/certs\/DigiCertHighAssuranceEVRootCA\.pem$/', $caInfo['cafile'])) {
                     return false;
                 }
 
@@ -101,7 +86,6 @@ class FacebookStreamHttpClientTest extends AbstractTestHttpClient
 
         $response = $this->streamClient->send('http://foo.com/', 'GET', 'foo_body', ['X-foo' => 'bar'], 123);
 
-        $this->assertInstanceOf(GraphRawResponse::class, $response);
         $this->assertEquals($this->fakeRawBody, $response->getBody());
         $this->assertEquals($this->fakeHeadersAsArray, $response->getHeaders());
         $this->assertEquals(200, $response->getHttpResponseCode());

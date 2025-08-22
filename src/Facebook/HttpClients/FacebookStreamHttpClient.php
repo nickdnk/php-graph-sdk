@@ -54,12 +54,6 @@ class FacebookStreamHttpClient implements FacebookHttpClientInterface
                 'timeout' => $timeOut,
                 'ignore_errors' => true
             ],
-            'ssl' => [
-                'verify_peer' => true,
-                'verify_peer_name' => true,
-                'allow_self_signed' => true, // All root certificates are self-signed
-                'cafile' => __DIR__ . '/certs/DigiCertHighAssuranceEVRootCA.pem',
-            ],
         ];
 
         $this->facebookStream->streamContextCreate($options);

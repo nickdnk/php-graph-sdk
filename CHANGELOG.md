@@ -2,6 +2,10 @@
 
 ## 8.x (UNOFFICIAL)
 
+- 8.0.1
+    - Removed pinned [DigiCert High Assurance EV Root CA](https://knowledge.digicert.com/general-information/digicert-trusted-root-authority-certificates).
+OS-supplied CA is now used by default.
+
 - 8.0.0
     - Requires PHP 8.1.
     - Defaults to Facebook Graph v20.0, instead of v2.10 which is no longer accessible.

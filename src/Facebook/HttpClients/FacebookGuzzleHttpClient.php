@@ -56,7 +56,6 @@ class FacebookGuzzleHttpClient implements FacebookHttpClientInterface
             'timeout'         => $timeOut,
             'http_errors'     => false,
             'connect_timeout' => 10,
-            'verify'          => __DIR__ . '/certs/DigiCertHighAssuranceEVRootCA.pem',
         ];
 
         if ($body) {

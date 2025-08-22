@@ -68,22 +68,14 @@ class FacebookCurlHttpClientTest extends AbstractTestHttpClient
                 }
                 unset($arg[CURLOPT_HTTPHEADER]);
 
-                $caInfo = array_diff($arg, [
+                if (array_diff_assoc($arg, [
                     CURLOPT_CUSTOMREQUEST => 'GET',
                     CURLOPT_URL => 'http://foo.com',
                     CURLOPT_CONNECTTIMEOUT => 10,
                     CURLOPT_TIMEOUT => 123,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HEADER => true,
-                    CURLOPT_SSL_VERIFYHOST => 2,
-                    CURLOPT_SSL_VERIFYPEER => true,
-                ]);
-
-                if (count($caInfo) !== 1) {
-                    return false;
-                }
-
-                if (1 !== preg_match('/.+\/certs\/DigiCertHighAssuranceEVRootCA\.pem$/', $caInfo[CURLOPT_CAINFO])) {
+                ])) {
                     return false;
                 }
 
@@ -111,23 +103,15 @@ class FacebookCurlHttpClientTest extends AbstractTestHttpClient
                 }
                 unset($arg[CURLOPT_HTTPHEADER]);
 
-                $caInfo = array_diff($arg, [
+                if (array_diff_assoc($arg, [
                     CURLOPT_CUSTOMREQUEST => 'POST',
                     CURLOPT_URL => 'http://bar.com',
                     CURLOPT_CONNECTTIMEOUT => 10,
                     CURLOPT_TIMEOUT => 60,
                     CURLOPT_RETURNTRANSFER => true,
                     CURLOPT_HEADER => true,
-                    CURLOPT_SSL_VERIFYHOST => 2,
-                    CURLOPT_SSL_VERIFYPEER => true,
                     CURLOPT_POSTFIELDS => 'baz=bar',
-                ]);
-
-                if (count($caInfo) !== 1) {
-                    return false;
-                }
-
-                if (1 !== preg_match('/.+\/certs\/DigiCertHighAssuranceEVRootCA\.pem$/', $caInfo[CURLOPT_CAINFO])) {
+                ])) {
                     return false;
                 }
 
